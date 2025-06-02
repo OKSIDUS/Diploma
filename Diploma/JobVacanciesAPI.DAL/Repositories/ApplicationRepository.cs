@@ -21,5 +21,22 @@ namespace JobVacanciesAPI.DAL.Repositories
                 .Select(a => a.Candidate)
                 .ToListAsync();
         }
+
+        public async Task<Application?> GetByIdAsync(int id)
+        {
+            return await _context.Applications.FindAsync(id);
+        }
+
+        public async Task AddAsync(Application application)
+        {
+            _context.Applications.Add(application);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateAsync(Application application)
+        {
+            _context.Applications.Update(application);
+            await _context.SaveChangesAsync();
+        }
     }
 }

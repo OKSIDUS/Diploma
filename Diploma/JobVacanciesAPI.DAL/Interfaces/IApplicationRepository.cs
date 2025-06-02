@@ -5,5 +5,8 @@ namespace JobVacanciesAPI.DAL.Interfaces
     public interface IApplicationRepository
     {
         Task<List<Candidate>> GetCandidatesByVacancyIdAsync(int vacancyId);
+        Task<Application?> GetByIdAsync(int id);
+        Task AddAsync(Application application);
+        Task UpdateAsync(Application application);
     }
 }
