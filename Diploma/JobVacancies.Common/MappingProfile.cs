@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
-using JobVacanciesAPI.BAL.Entity;
+using JobVacanciesAPI.BAL.DTOs.Candidate;
+using JobVacanciesAPI.BAL.DTOs.Recruiter;
+using JobVacanciesAPI.BAL.DTOs.Vacancy;
+using JobVacanciesAPI.BAL.DTOs.Tag;
 using JobVacanciesAPI.DAL.Entity;
 
 namespace JobVacancies.Common
@@ -9,10 +12,9 @@ namespace JobVacancies.Common
         public MappingProfile()
         {
             CreateMap<VacancyDTO, Vacancy>().ReverseMap();
-            CreateMap<UserDTO, User>().ReverseMap();
             CreateMap<CandidateDTO, Candidate>().ReverseMap();
             CreateMap<RecruiterDTO, Recruiter>().ReverseMap();
-            CreateMap<ApplicationDTO, Application>().ReverseMap();
+            CreateMap<TagDTO, Tag>().ReverseMap();
         }
 
     }

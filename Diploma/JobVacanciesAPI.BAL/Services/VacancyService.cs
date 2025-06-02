@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using JobVacanciesAPI.BAL.Entity;
+using JobVacanciesAPI.BAL.DTOs.Vacancy;
 using JobVacanciesAPI.BAL.Interfaces;
 using JobVacanciesAPI.DAL.Entity;
 using JobVacanciesAPI.DAL.Interfaces;

@@ -1,4 +1,4 @@
-﻿using JobVacanciesAPI.BAL.Entity;
+﻿using JobVacanciesAPI.BAL.DTOs.Recruiter;
 
 namespace JobVacanciesAPI.BAL.Interfaces
 {

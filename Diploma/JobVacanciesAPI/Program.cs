@@ -39,6 +39,7 @@ namespace JobVacanciesAPI
             builder.Services.AddScoped<ICandidateRepository, CandidateRepository>();
             builder.Services.AddScoped<IRecruiterRepository, RecruiterRepository>();
             builder.Services.AddScoped<IApplicationRepository, ApplicationRepository>();
+            builder.Services.AddScoped<ITagRepository, TagRepository>();
 
             //BAL
             builder.Services.AddScoped<IVacancyService, VacancyService>();
@@ -46,6 +47,7 @@ namespace JobVacanciesAPI
             builder.Services.AddScoped<ICandidateService, CandidateService>();
             builder.Services.AddScoped<IRecruiterService, RecruiterService>();
             builder.Services.AddScoped<IApplicationService, ApplicationService>();
+            builder.Services.AddScoped<ITagService, TagService>();
 
             builder.Services.AddAuthentication(options =>
             {

@@ -1,4 +1,4 @@
-﻿using JobVacanciesAPI.BAL.Entity;
+﻿using JobVacanciesAPI.BAL.DTOs.Recruiter;
 using JobVacanciesAPI.BAL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 

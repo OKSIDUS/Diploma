@@ -1,4 +1,4 @@
-﻿using JobVacanciesAPI.BAL.Entity;
+﻿using JobVacanciesAPI.BAL.DTOs.Vacancy;
 using JobVacanciesAPI.BAL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,7 +6,7 @@ namespace JobVacanciesAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class VacanciesController : ControllerBase
+    public class VacanciesController : Controller
     {
         private readonly IVacancyService _vacancyService;
         private readonly IApplicationService _applicationService;
