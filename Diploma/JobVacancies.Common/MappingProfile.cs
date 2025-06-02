@@ -11,6 +11,7 @@ namespace JobVacancies.Common
             CreateMap<VacancyDTO, Vacancy>().ReverseMap();
             CreateMap<UserDTO, User>().ReverseMap();
             CreateMap<CandidateDTO, Candidate>().ReverseMap();
+            CreateMap<RecruiterDTO, Recruiter>().ReverseMap();
         }
 
     }
