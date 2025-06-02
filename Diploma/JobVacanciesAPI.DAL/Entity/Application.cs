@@ -12,5 +12,7 @@ namespace JobVacanciesAPI.DAL.Entity
 
         public DateTime SubmittedAt { get; set; }
         public string Status { get; set; }
+
+        public Candidate Candidate { get; set; } = null!;
     }
 }

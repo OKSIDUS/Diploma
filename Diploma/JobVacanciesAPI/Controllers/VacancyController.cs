@@ -5,71 +5,74 @@ using Microsoft.AspNetCore.Mvc;
 namespace JobVacanciesAPI.Controllers
 {
     [ApiController]
-    [Route("api/")]
-    public class VacancyController : Controller
+    [Route("api/[controller]")]
+    public class VacanciesController : ControllerBase
     {
         private readonly IVacancyService _vacancyService;
+        private readonly IApplicationService _applicationService;
 
-        public VacancyController(IVacancyService vacancyService)
+        public VacanciesController(IVacancyService vacancyService, IApplicationService applicationService)
         {
             _vacancyService = vacancyService;
+            _applicationService = applicationService;
         }
 
         [HttpGet("get-all")]
-        public async Task<ActionResult> GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var vacancies = await _vacancyService.GetAllVacanciesAsync();
+            var vacancies = await _vacancyService.GetAllAsync();
             return Ok(vacancies);
         }
 
         [HttpGet("get-by-id/{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            if (id < 1)
-            {
-                return BadRequest();
-            } 
+            var vacancy = await _vacancyService.GetByIdAsync(id);
+            if (vacancy == null)
+                return NotFound();
 
-            var vacancy = await _vacancyService.GetVacancyAsync(id);
             return Ok(vacancy);
         }
 
-        [HttpPost("create-vacancy")]
-        public async Task<IActionResult> Create([FromBody] VacancyDTO vacancy)
+        [HttpGet("recruiter/{recruiterId}")]
+        public async Task<IActionResult> GetByRecruiter(int recruiterId)
         {
-            if (vacancy == null)
-            {
-                return BadRequest("Vacancy is null");
-            }
+            var vacancies = await _vacancyService.GetByRecruiterAsync(recruiterId);
+            return Ok(vacancies);
+        }
 
-            await _vacancyService.CreateVacancyAsync(vacancy);
+        [HttpPost("create")]
+        public async Task<IActionResult> Create([FromBody] VacancyDTO dto)
+        {
+            dto.CreatedAt = DateTime.UtcNow;
+            dto.IsActive = true;
 
+            await _vacancyService.AddAsync(dto);
             return Ok();
         }
 
-
-        [HttpPost("update-vacancy")]
-        public async Task<IActionResult> Update([FromBody] VacancyDTO vacancy)
+        [HttpPut("update/{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] VacancyDTO dto)
         {
-            if (vacancy == null)
-            {
-                return BadRequest("Vacancy is null");
-            }
+            if (dto.Id != id)
+                return BadRequest("ID не збігається.");
 
-            await _vacancyService.UpdateVacancyAsync(vacancy);
+            await _vacancyService.UpdateAsync(dto);
             return Ok();
         }
 
-        [HttpDelete("delete-vacancy/{id}")]
+        [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            if (id < 1)
-            {
-                return BadRequest("Incorrect ID");
-            }
-
-            await _vacancyService.DeleteVacancyAsync(id);
+            await _vacancyService.DeleteAsync(id);
             return Ok();
+        }
+
+        [HttpGet("{id}/candidates")]
+        public async Task<IActionResult> GetCandidatesByVacancy(int id)
+        {
+            var candidates = await _applicationService.GetCandidatesByVacancyIdAsync(id);
+            return Ok(candidates);
         }
     }
 }

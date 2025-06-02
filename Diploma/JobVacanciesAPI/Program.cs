@@ -38,12 +38,14 @@ namespace JobVacanciesAPI
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<ICandidateRepository, CandidateRepository>();
             builder.Services.AddScoped<IRecruiterRepository, RecruiterRepository>();
+            builder.Services.AddScoped<IApplicationRepository, ApplicationRepository>();
 
             //BAL
             builder.Services.AddScoped<IVacancyService, VacancyService>();
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<ICandidateService, CandidateService>();
             builder.Services.AddScoped<IRecruiterService, RecruiterService>();
+            builder.Services.AddScoped<IApplicationService, ApplicationService>();
 
             builder.Services.AddAuthentication(options =>
             {

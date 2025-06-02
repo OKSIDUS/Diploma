@@ -14,9 +14,32 @@ namespace JobVacanciesAPI.DAL.Repositories
             _context = dbContext;
         }
 
-        public async Task CreateAsync(Vacancy vacancy)
+        public async Task<List<Vacancy>> GetAllAsync()
+        {
+            return await _context.Vacancies.ToListAsync();
+        }
+
+        public async Task<Vacancy?> GetByIdAsync(int id)
+        {
+            return await _context.Vacancies.FindAsync(id);
+        }
+
+        public async Task<List<Vacancy>> GetByRecruiterIdAsync(int recruiterId)
+        {
+            return await _context.Vacancies
+                .Where(v => v.RecruiterId == recruiterId)
+                .ToListAsync();
+        }
+
+        public async Task AddAsync(Vacancy vacancy)
         {
             _context.Vacancies.Add(vacancy);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateAsync(Vacancy vacancy)
+        {
+            _context.Vacancies.Update(vacancy);
             await _context.SaveChangesAsync();
         }
 
@@ -28,22 +51,6 @@ namespace JobVacanciesAPI.DAL.Repositories
                 _context.Vacancies.Remove(vacancy);
                 await _context.SaveChangesAsync();
             }
-        }
-
-        public async Task<List<Vacancy>> GetAllAsync()
-        {
-            return await _context.Vacancies.ToListAsync();
-        }
-
-        public async Task<Vacancy> GetByIdAsync(int id)
-        {
-            return await _context.Vacancies.FindAsync(id);
-        }
-
-        public async Task UpdateAsync(Vacancy vacancy)
-        {
-            _context.Vacancies.Update(vacancy);
-            await _context.SaveChangesAsync();
         }
     }
 }

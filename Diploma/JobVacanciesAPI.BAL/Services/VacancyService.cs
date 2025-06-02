@@ -8,40 +8,59 @@ namespace JobVacanciesAPI.BAL.Services
 {
     public class VacancyService : IVacancyService
     {
-        private readonly IVacancyRepository _vacancyRepository;
+        private readonly IVacancyRepository _repo;
         private readonly IMapper _mapper;
 
-        public VacancyService(IVacancyRepository vacancyRepository, IMapper mapper)
+        public VacancyService(IVacancyRepository repo, IMapper mapper)
         {
-            _vacancyRepository = vacancyRepository;
+            _repo = repo;
             _mapper = mapper;
         }
 
-        public async Task CreateVacancyAsync(VacancyDTO vacancy)
+        public async Task<List<VacancyDTO>> GetAllAsync()
         {
-            await _vacancyRepository.CreateAsync(_mapper.Map<Vacancy>(vacancy));
+            var list = await _repo.GetAllAsync();
+            return _mapper.Map<List<VacancyDTO>>(list);
         }
 
-        public async Task DeleteVacancyAsync(int id)
+        public async Task<VacancyDTO?> GetByIdAsync(int id)
         {
-            await _vacancyRepository.DeleteAsync(id);
+            var vacancy = await _repo.GetByIdAsync(id);
+            return vacancy == null ? null : _mapper.Map<VacancyDTO>(vacancy);
         }
 
-        public async Task<List<VacancyDTO>> GetAllVacanciesAsync()
+        public async Task<List<VacancyDTO>> GetByRecruiterAsync(int recruiterId)
         {
-            var vacancies = await _vacancyRepository.GetAllAsync();
-            return  _mapper.Map<List<VacancyDTO>>(vacancies);
+            var list = await _repo.GetByRecruiterIdAsync(recruiterId);
+            return _mapper.Map<List<VacancyDTO>>(list);
         }
 
-        public async Task<VacancyDTO> GetVacancyAsync(int id)
+        public async Task AddAsync(VacancyDTO dto)
         {
-            var vacancy = await _vacancyRepository.GetByIdAsync(id);
-            return _mapper.Map<VacancyDTO>(vacancy);
+            var entity = new Vacancy
+            {
+                CreatedAt = dto.CreatedAt,
+                Description = dto.Description,
+                IsActive = dto.IsActive,
+                Location = dto.Location,
+                RecruiterId = dto.RecruiterId,
+                Requirements = dto.Requirements,
+                SalaryMax = dto.SalaryMax,
+                SalaryMin = dto.SalaryMin,
+                Title = dto.Title,
+            };
+            await _repo.AddAsync(entity);
         }
 
-        public async Task UpdateVacancyAsync(VacancyDTO vacancy)
+        public async Task UpdateAsync(VacancyDTO dto)
         {
-            await _vacancyRepository.UpdateAsync(_mapper.Map<Vacancy>(vacancy));
+            var entity = _mapper.Map<Vacancy>(dto);
+            await _repo.UpdateAsync(entity);
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            await _repo.DeleteAsync(id);
         }
     }
 }
