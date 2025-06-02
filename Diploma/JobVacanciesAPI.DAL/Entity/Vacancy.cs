@@ -16,5 +16,7 @@ namespace JobVacanciesAPI.DAL.Entity
         public string Tags { get; set; }
 
         public int RecruiterId { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public bool IsActive { get; set; }
     }
 }
