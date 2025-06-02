@@ -36,10 +36,12 @@ namespace JobVacanciesAPI
             //DAL
             builder.Services.AddScoped<IVacancyRepository, VacancyRepository>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<ICandidateRepository, CandidateRepository>();
 
             //BAL
             builder.Services.AddScoped<IVacancyService, VacancyService>();
             builder.Services.AddScoped<IAuthService, AuthService>();
+            builder.Services.AddScoped<ICandidateService, CandidateService>();
 
             builder.Services.AddAuthentication(options =>
             {
