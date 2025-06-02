@@ -1,12 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace JobVacanciesAPI.DAL.Entity
+namespace JobVacanciesAPI.BAL.Entity
 {
-    [Table("Vacancies")]
-    public class Vacancy
+    public class VacancyDTO
     {
-        public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string Requirements { get; set; }

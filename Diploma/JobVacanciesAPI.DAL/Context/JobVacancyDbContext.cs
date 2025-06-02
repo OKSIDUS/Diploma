@@ -1,6 +1,7 @@
 ﻿using JobVacanciesAPI.DAL.Entity;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace JobVacanciesAPI.DAL.Context
 {
     public class JobVacancyDbContext : DbContext, IJobVacancyDbContext
@@ -21,6 +22,13 @@ namespace JobVacanciesAPI.DAL.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<VacancyTags>()
+                .HasKey(vt => new { vt.VacancyId, vt.TagId });
+        }
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            return base.SaveChangesAsync(cancellationToken);
         }
     }
 }

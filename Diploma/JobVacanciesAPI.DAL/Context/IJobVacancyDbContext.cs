@@ -13,5 +13,7 @@ namespace JobVacanciesAPI.DAL.Context
         public DbSet<User> Users { get; }
         public DbSet<VacancyTags> VacancyTags { get; }
         public DbSet<Candidate> Candidates { get; }
+
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }

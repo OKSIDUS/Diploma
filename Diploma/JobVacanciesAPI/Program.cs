@@ -1,5 +1,10 @@
 
+using JobVacancies.Common;
+using JobVacanciesAPI.BAL.Interfaces;
+using JobVacanciesAPI.BAL.Services;
 using JobVacanciesAPI.DAL.Context;
+using JobVacanciesAPI.DAL.Interfaces;
+using JobVacanciesAPI.DAL.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -18,9 +23,19 @@ namespace JobVacanciesAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+
+            builder.Services.AddAutoMapper(typeof(MappingProfile));
+
             var defaultConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddDbContext<JobVacancyDbContext>(options =>
                 options.UseSqlServer(defaultConnectionString));
+            builder.Services.AddScoped<IJobVacancyDbContext>(provider => provider.GetService<JobVacancyDbContext>());
+
+            //DAL
+            builder.Services.AddScoped<IVacancyRepository, VacancyRepository>();
+
+            //BAL
+            builder.Services.AddScoped<IVacancyService, VacancyService>();
 
             var app = builder.Build();
 

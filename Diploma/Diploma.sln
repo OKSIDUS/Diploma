@@ -3,17 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34316.72
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobVacanciesAPI", "JobVacanciesAPI\JobVacanciesAPI.csproj", "{86F809DC-23A8-401C-87E5-674BD0914470}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JobVacanciesAPI", "JobVacanciesAPI\JobVacanciesAPI.csproj", "{86F809DC-23A8-401C-87E5-674BD0914470}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobVacanciesAPI.DAL", "JobVacanciesAPI.DAL\JobVacanciesAPI.DAL.csproj", "{E79C48D6-676C-4C48-B22F-C29E3D789385}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JobVacanciesAPI.DAL", "JobVacanciesAPI.DAL\JobVacanciesAPI.DAL.csproj", "{E79C48D6-676C-4C48-B22F-C29E3D789385}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobVacanciesAPI.BAL", "JobVacanciesAPI.BAL\JobVacanciesAPI.BAL.csproj", "{C040F3D2-E876-44A1-B4C2-2040470E953C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JobVacanciesAPI.BAL", "JobVacanciesAPI.BAL\JobVacanciesAPI.BAL.csproj", "{C040F3D2-E876-44A1-B4C2-2040470E953C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobVacanciesAPP", "JobVacanciesAPP\JobVacanciesAPP.csproj", "{C257D856-32AD-435F-B131-1C556F164CC7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JobVacanciesAPP", "JobVacanciesAPP\JobVacanciesAPP.csproj", "{C257D856-32AD-435F-B131-1C556F164CC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobVacanciesAPP.DAL", "JobVacanciesAPP.DAL\JobVacanciesAPP.DAL.csproj", "{A1D3F351-236D-4904-A3F9-AE0E80888BC0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JobVacanciesAPP.DAL", "JobVacanciesAPP.DAL\JobVacanciesAPP.DAL.csproj", "{A1D3F351-236D-4904-A3F9-AE0E80888BC0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobVacanciesAPP.BAL", "JobVacanciesAPP.BAL\JobVacanciesAPP.BAL.csproj", "{2854FBD6-AC82-403F-B22C-D656F9806C8A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JobVacanciesAPP.BAL", "JobVacanciesAPP.BAL\JobVacanciesAPP.BAL.csproj", "{2854FBD6-AC82-403F-B22C-D656F9806C8A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobVacancies.Common", "JobVacancies.Common\JobVacancies.Common.csproj", "{D9D86015-B6F4-4640-B0A0-AB80BE234F87}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{2854FBD6-AC82-403F-B22C-D656F9806C8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2854FBD6-AC82-403F-B22C-D656F9806C8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2854FBD6-AC82-403F-B22C-D656F9806C8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9D86015-B6F4-4640-B0A0-AB80BE234F87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9D86015-B6F4-4640-B0A0-AB80BE234F87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9D86015-B6F4-4640-B0A0-AB80BE234F87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9D86015-B6F4-4640-B0A0-AB80BE234F87}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

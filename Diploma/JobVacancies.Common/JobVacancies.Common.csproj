@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="14.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\JobVacanciesAPI.BAL\JobVacanciesAPI.BAL.csproj" />
+    <ProjectReference Include="..\JobVacanciesAPI.DAL\JobVacanciesAPI.DAL.csproj" />
+    <ProjectReference Include="..\JobVacanciesAPP.BAL\JobVacanciesAPP.BAL.csproj" />
+    <ProjectReference Include="..\JobVacanciesAPP.DAL\JobVacanciesAPP.DAL.csproj" />
+  </ItemGroup>
+
+</Project>

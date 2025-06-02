@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace JobVacanciesAPI.DAL.Entity
+namespace JobVacanciesAPI.BAL.Entity
 {
-    [Table("Users")]
-    public class User
+    public class UserDTO
     {
         public int Id { get; set; }
         public string Email { get; set; }
