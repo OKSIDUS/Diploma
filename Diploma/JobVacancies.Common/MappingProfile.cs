@@ -9,6 +9,8 @@ namespace JobVacancies.Common
         public MappingProfile()
         {
             CreateMap<VacancyDTO, Vacancy>().ReverseMap();
+            CreateMap<UserDTO, User>().ReverseMap();
         }
+
     }
 }
