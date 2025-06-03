@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>
@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\JobVacancies.Common\JobVacancies.Common.csproj" />
+    <ProjectReference Include="..\JobVacancies.RecommendationSystem\JobVacancies.RecommendationSystem.csproj" />
     <ProjectReference Include="..\JobVacanciesAPI.BAL\JobVacanciesAPI.BAL.csproj" />
     <ProjectReference Include="..\JobVacanciesAPI.DAL\JobVacanciesAPI.DAL.csproj" />
   </ItemGroup>

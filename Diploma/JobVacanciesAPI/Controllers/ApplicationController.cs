@@ -1,4 +1,5 @@
-﻿using JobVacanciesAPI.BAL.DTOs.Application;
+﻿using JobVacancies.RecommendationSystem.Services;
+using JobVacanciesAPI.BAL.DTOs.Application;
 using JobVacanciesAPI.BAL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,10 +10,12 @@ namespace JobVacanciesAPI.Controllers
     public class ApplicationsController : Controller
     {
         private readonly IApplicationService _service;
+        private readonly RecommendationService _recommendationService;
 
-        public ApplicationsController(IApplicationService service)
+        public ApplicationsController(IApplicationService service, RecommendationService recommendationService)
         {
             _service = service;
+            _recommendationService = recommendationService;
         }
 
         [HttpGet("get-by-id/{id}")]
@@ -34,6 +37,20 @@ namespace JobVacanciesAPI.Controllers
         {
             await _service.UpdateStatusAsync(id, newStatus);
             return Ok();
+        }
+
+        [HttpGet("train-model")]
+        public async Task<IActionResult> TrainModel()
+        {
+            try
+            {
+                await _recommendationService.TrainModelAsync();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500,ex.Message);
+            }
         }
     }
 }

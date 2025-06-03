@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JobVacanciesAPP.DAL", "JobV
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JobVacanciesAPP.BAL", "JobVacanciesAPP.BAL\JobVacanciesAPP.BAL.csproj", "{2854FBD6-AC82-403F-B22C-D656F9806C8A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobVacancies.Common", "JobVacancies.Common\JobVacancies.Common.csproj", "{D9D86015-B6F4-4640-B0A0-AB80BE234F87}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JobVacancies.Common", "JobVacancies.Common\JobVacancies.Common.csproj", "{D9D86015-B6F4-4640-B0A0-AB80BE234F87}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobVacancies.RecommendationSystem", "JobVacancies.RecommendationSystem\JobVacancies.RecommendationSystem.csproj", "{1CD04CE4-5901-4622-949F-E9370328E073}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{D9D86015-B6F4-4640-B0A0-AB80BE234F87}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9D86015-B6F4-4640-B0A0-AB80BE234F87}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9D86015-B6F4-4640-B0A0-AB80BE234F87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CD04CE4-5901-4622-949F-E9370328E073}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CD04CE4-5901-4622-949F-E9370328E073}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CD04CE4-5901-4622-949F-E9370328E073}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CD04CE4-5901-4622-949F-E9370328E073}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

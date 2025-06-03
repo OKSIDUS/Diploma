@@ -1,5 +1,6 @@
 
 using JobVacancies.Common;
+using JobVacancies.RecommendationSystem.Services;
 using JobVacanciesAPI.BAL.Interfaces;
 using JobVacanciesAPI.BAL.Services;
 using JobVacanciesAPI.DAL.Context;
@@ -8,6 +9,7 @@ using JobVacanciesAPI.DAL.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.ML;
 using System.Text;
 
 namespace JobVacanciesAPI
@@ -48,6 +50,10 @@ namespace JobVacanciesAPI
             builder.Services.AddScoped<IRecruiterService, RecruiterService>();
             builder.Services.AddScoped<IApplicationService, ApplicationService>();
             builder.Services.AddScoped<ITagService, TagService>();
+
+
+            builder.Services.AddSingleton<MLContext>(new MLContext());
+            builder.Services.AddScoped<RecommendationService>();
 
             builder.Services.AddAuthentication(options =>
             {
