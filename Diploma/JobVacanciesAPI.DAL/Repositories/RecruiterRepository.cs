@@ -21,7 +21,8 @@ namespace JobVacanciesAPI.DAL.Repositories
 
         public async Task<Recruiter?> GetByIdAsync(int id)
         {
-            return await _context.Recruiters.FindAsync(id);
+            var recruiter =  await _context.Recruiters.Where(r => r.UserId == id).FirstOrDefaultAsync();
+            return recruiter;
         }
 
         public async Task AddAsync(Recruiter recruiter)

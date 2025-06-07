@@ -1,0 +1,62 @@
+﻿@using JobVacanciesAPP.BAL.DTOs.UserProfile
+@{
+    @model UserProfileDTO;
+    ViewData["Title"] = "Мій профіль рекрутера";
+}
+
+<h2 class="mb-4">Мій профіль рекрутера</h2>
+
+<div class="card mb-4">
+    <div class="card-header fw-bold">Інформація про користувача</div>
+    <div class="card-body">
+        <p><strong>Email:</strong> @Model.User.Email</p>
+        <p><strong>Компанія:</strong> @Model.Recruiter.CompanyName</p>
+        <p><strong>Посада:</strong> @Model.Recruiter.Position</p>
+        <form method="get" asp-controller="Profile" asp-action="EditRecruiter">
+            <button type="submit" class="btn btn-outline-primary w-100">Редагувати профіль</button>
+        </form>
+    </div>
+</div>
+
+<!-- Активні вакансії -->
+<div class="card mb-4">
+    <div class="card-header fw-bold">Мої активні вакансії</div>
+    <div class="card-body">
+
+        <!-- Вакансія 1 -->
+        <div class="mb-4 border-bottom pb-3">
+            <h5>Middle .NET Developer</h5>
+            <p><strong>Локація:</strong> Київ / Remote</p>
+            <p><strong>Опубліковано:</strong> 10 квітня 2025</p>
+            <p><strong>Статус:</strong> <span class="badge bg-success">Активна</span></p>
+            <div class="d-flex gap-2">
+                <button class="btn btn-info text-white">Переглянути</button>
+                <button class="btn btn-warning text-dark">Редагувати</button>
+            </div>
+        </div>
+
+        <!-- Вакансія 2 -->
+        <div class="mb-4 border-bottom pb-3">
+            <h5>AI Engineer (HR Recommendation Systems)</h5>
+            <p><strong>Локація:</strong> Львів</p>
+            <p><strong>Опубліковано:</strong> 6 березня 2025</p>
+            <p><strong>Статус:</strong> <span class="badge bg-success">Активна</span></p>
+            <div class="d-flex gap-2">
+                <button class="btn btn-info text-white">Переглянути</button>
+                <button class="btn btn-warning text-dark">Редагувати</button>
+            </div>
+        </div>
+
+        <!-- Вакансія 3 -->
+        <div class="mb-4">
+            <h5>Junior QA Engineer</h5>
+            <p><strong>Локація:</strong> Харків</p>
+            <p><strong>Опубліковано:</strong> 25 лютого 2025</p>
+            <p><strong>Статус:</strong> <span class="badge bg-secondary">Неактивна</span></p>
+            <div>
+                <button class="btn btn-secondary disabled">Архівована</button>
+            </div>
+        </div>
+
+    </div>
+</div>

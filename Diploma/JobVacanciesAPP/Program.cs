@@ -21,9 +21,11 @@ namespace JobVacanciesAPP
             builder.Services.AddSingleton(apiSettings);
 
             builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+            builder.Services.AddScoped<IUserProfileRepository, UserProfileRepository>();
 
 
             builder.Services.AddScoped<IAuthService, AuthService>();
+            builder.Services.AddScoped<IUserService, UserService>();
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 

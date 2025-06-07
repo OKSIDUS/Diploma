@@ -15,12 +15,16 @@ namespace JobVacanciesAPI.BAL.Services
     public class AuthService : IAuthService
     {
         private readonly IUserRepository _userRepository;
+        private readonly ICandidateRepository _candidateRepository;
+        private readonly IRecruiterRepository _recruiterRepository;
         private readonly IConfiguration _config;
 
-        public AuthService(IUserRepository userRepository, IConfiguration config)
+        public AuthService(IUserRepository userRepository, IConfiguration config, IRecruiterRepository recruiterRepository, ICandidateRepository candidateRepository)
         {
             _userRepository = userRepository;
             _config = config;
+            _candidateRepository = candidateRepository;
+            _recruiterRepository = recruiterRepository;
         }
 
         public async Task<AuthResponseDTO?> LoginAsync(LoginDTO login)
@@ -56,6 +60,15 @@ namespace JobVacanciesAPI.BAL.Services
             };
 
             await _userRepository.AddAsync(user);
+            
+            if(register.Role == "Candidate")
+            {
+                await _candidateRepository.AddAsync(new Candidate { UserId = user.Id });
+            }
+            else if (register.Role == "Recruiter")
+            {
+                await _recruiterRepository.AddAsync(new Recruiter {  UserId = user.Id });
+            }
 
             return new AuthResponseDTO
             {

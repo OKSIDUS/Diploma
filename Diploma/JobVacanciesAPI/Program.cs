@@ -50,6 +50,7 @@ namespace JobVacanciesAPI
             builder.Services.AddScoped<IRecruiterService, RecruiterService>();
             builder.Services.AddScoped<IApplicationService, ApplicationService>();
             builder.Services.AddScoped<ITagService, TagService>();
+            builder.Services.AddScoped<IUserService, UserService>();
 
 
             builder.Services.AddSingleton<MLContext>(new MLContext());

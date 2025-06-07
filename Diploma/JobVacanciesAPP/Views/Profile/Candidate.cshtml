@@ -1,0 +1,79 @@
+﻿@using JobVacanciesAPP.BAL.DTOs.UserProfile
+@{
+    @model UserProfileDTO;
+    ViewData["Title"] = "Мій профіль кандидата";
+}
+
+<h2 class="mb-4">Мій профіль кандидата</h2>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Особисті дані</h5>
+        <p><strong>Ім’я:</strong>@Model.Candidate.FullName</p>
+        <p><strong>Email:</strong> @Model.User.Email</p>
+        <p><strong>Дата народження:</strong> @Model.Candidate.DateOfBirth.ToString()</p>
+        <p><strong>Досвід роботи:</strong> @Model.Candidate.Experience</p>
+        <p><strong>Навички:</strong> @Model.Candidate.Skills</p>
+        <p><strong>Резюме:</strong> <a href="#">@Model.Candidate.ResumeFilePath</a></p>
+
+        <a href="/Profile/Edit" class="btn btn-outline-primary mt-2">Редагувати профіль</a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title mb-4">Рекомендовані вакансії для вас</h5>
+        <div class="row">
+            <!-- Вакансія 1 -->
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Junior .NET Developer</h5>
+                        <p><strong>Компанія:</strong> SoftVision</p>
+                        <p><strong>Локація:</strong> Київ / Remote</p>
+                        <p>Позиція для розробника-початківця зі знанням ASP.NET Core.</p>
+                        <p><strong>Теги:</strong> .NET, Remote, Junior</p>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between">
+                        <a href="#" class="btn btn-outline-info btn-sm">Детальніше</a>
+                        <a href="#" class="btn btn-success btn-sm">Подати заявку</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Вакансія 2 -->
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">AI Talent Analyst</h5>
+                        <p><strong>Компанія:</strong> HRTech Global</p>
+                        <p><strong>Локація:</strong> Львів</p>
+                        <p>Участь у розробці AI-рекомендацій для системи пошуку персоналу.</p>
+                        <p><strong>Теги:</strong> AI, SQL, Full-time</p>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between">
+                        <a href="#" class="btn btn-outline-info btn-sm">Детальніше</a>
+                        <a href="#" class="btn btn-success btn-sm">Подати заявку</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Вакансія 3 -->
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">QA Engineer</h5>
+                        <p><strong>Компанія:</strong> TalentMatch Inc.</p>
+                        <p><strong>Локація:</strong> Харків</p>
+                        <p>Тестування модулів обробки заявок, профілів та рекомендацій.</p>
+                        <p><strong>Теги:</strong> QA, .NET, Full-time</p>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between">
+                        <a href="#" class="btn btn-outline-info btn-sm">Детальніше</a>
+                        <a href="#" class="btn btn-success btn-sm">Подати заявку</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
