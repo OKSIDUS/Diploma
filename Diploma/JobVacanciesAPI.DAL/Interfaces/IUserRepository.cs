@@ -9,7 +9,9 @@ namespace JobVacanciesAPI.DAL.Interfaces
 
         Task<User?> GetByEmail(string email);
         Task<bool> EmailExistsAsync(string email);
-        Task<User?> GetById(int id);    
+        Task<User?> GetById(int id);
+
+        Task EditUserEmail(string email, int userId);
     }
 
 }

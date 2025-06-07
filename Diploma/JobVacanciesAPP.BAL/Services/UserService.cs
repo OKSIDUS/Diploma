@@ -1,6 +1,7 @@
 ﻿using JobVacanciesAPP.BAL.DTOs.UserProfile;
 using JobVacanciesAPP.BAL.Interfaces;
 using JobVacanciesAPP.DAL.Interfaces;
+using JobVacanciesAPP.DAL.Models.Users;
 using Microsoft.Identity.Client;
 
 namespace JobVacanciesAPP.BAL.Services
@@ -12,6 +13,14 @@ namespace JobVacanciesAPP.BAL.Services
         public UserService(IUserProfileRepository profileRepository)
         {
             _profileRepository = profileRepository;
+        }
+
+        public async Task EditRecruiterProfile(RecruiterEdit recruiterEdit)
+        {
+            if (recruiterEdit != null)
+            {
+                await _profileRepository.EditRecruiterProfile(recruiterEdit);
+            }
         }
 
         public async Task<UserProfileDTO> GetUserProfileAsync(int userId)

@@ -40,5 +40,16 @@ namespace JobVacanciesAPI.DAL.Repositories
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
         }
+
+        public async Task EditUserEmail(string email, int userId)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user != null)
+            {
+                user.Email = email;
+            }
+
+            await _context.SaveChangesAsync();
+        }
     }
 }

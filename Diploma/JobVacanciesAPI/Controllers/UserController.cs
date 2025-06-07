@@ -1,4 +1,5 @@
-﻿using JobVacanciesAPI.BAL.Interfaces;
+﻿using JobVacanciesAPI.BAL.DTOs.User;
+using JobVacanciesAPI.BAL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JobVacanciesAPI.Controllers
@@ -27,6 +28,19 @@ namespace JobVacanciesAPI.Controllers
 
             return Ok(profile);
 
+        }
+
+        [HttpPost("edit-recruiter-profile")]
+        public async Task<IActionResult> EditRecruiter(RecruiterEditDTO recruiterEdit)
+        {
+            if (recruiterEdit == null)
+            {
+                return BadRequest("Model was null");
+            }
+
+            await _userService.EditRecruiterProfile(recruiterEdit);
+
+            return Ok();
         }
 
     }

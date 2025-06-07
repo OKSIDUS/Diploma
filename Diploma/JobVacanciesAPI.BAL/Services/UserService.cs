@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using JobVacanciesAPI.BAL.DTOs.Recruiter;
 using JobVacanciesAPI.BAL.DTOs.User;
 using JobVacanciesAPI.BAL.Interfaces;
 using JobVacanciesAPI.DAL.Interfaces;
@@ -18,6 +19,22 @@ namespace JobVacanciesAPI.BAL.Services
             _candidateRepository = candidateRepository;
             _recruiterRepository = recruiterRepository;
             _mapper = mapper;
+        }
+
+        public async Task EditRecruiterProfile(RecruiterEditDTO recruiterEditDTO)
+        {
+            if(recruiterEditDTO != null)
+            {
+                await _userRepository.EditUserEmail(recruiterEditDTO.Email, recruiterEditDTO.UserId);
+
+
+                await _recruiterRepository.UpdateAsync(new DAL.Entity.Recruiter
+                {
+                    CompanyName = recruiterEditDTO.CompanyName,
+                    Position = recruiterEditDTO.Position,
+                    UserId = recruiterEditDTO.UserId,
+                });
+            }
         }
 
         public async Task<UserProfile> GetUserProfileAsync(int userId)

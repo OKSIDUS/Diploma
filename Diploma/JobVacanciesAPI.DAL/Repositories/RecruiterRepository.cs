@@ -33,6 +33,13 @@ namespace JobVacanciesAPI.DAL.Repositories
 
         public async Task UpdateAsync(Recruiter recruiter)
         {
+            var oldRecruiter = await _context.Recruiters.Where(r => r.UserId == recruiter!.UserId).FirstOrDefaultAsync();
+            if (oldRecruiter != null)
+            {
+                oldRecruiter.UserId = recruiter.UserId;
+                oldRecruiter.Position = recruiter.Position;
+                oldRecruiter.CompanyName = recruiter.CompanyName;
+            }
             _context.Recruiters.Update(recruiter);
             await _context.SaveChangesAsync();
         }
