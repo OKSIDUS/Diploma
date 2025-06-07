@@ -23,7 +23,9 @@ namespace JobVacanciesAPP.DAL.Repositories
                 var json = JsonSerializer.Serialize(candidate);
                 var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
                 var response = await httpClient.PostAsync(httpClient.BaseAddress + "user/edit-candidate-profile", content);
+                string errorDetails = await response.Content.ReadAsStringAsync();
 
+                Console.WriteLine(errorDetails);
                 if (response.IsSuccessStatusCode)
                 {
                     return true;
@@ -56,6 +58,19 @@ namespace JobVacanciesAPP.DAL.Repositories
             {
                 var userProfile = await response.Content.ReadFromJsonAsync<UserProfile>();
                 return userProfile;
+            }
+
+            return null;
+        }
+
+        public async Task<Skills> GetUserSkills(int userId)
+        {
+            var response = await httpClient.GetAsync($"user/get-user-skills/{userId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var skills = await response.Content.ReadFromJsonAsync<Skills>();
+                return skills;
             }
 
             return null;

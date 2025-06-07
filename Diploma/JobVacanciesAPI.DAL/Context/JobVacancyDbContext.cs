@@ -16,6 +16,7 @@ namespace JobVacanciesAPI.DAL.Context
         public DbSet<User> Users { get; set; }
         public DbSet<VacancyTags> VacancyTags { get; set; }
         public DbSet<Candidate> Candidates { get; set; }
+        public DbSet<CandidateSkills> CandidateSkills { get; set; }
         public static string TablePrefix { get; set; } = "";
         public static string Schema { get; set; } = "dbo";
 
@@ -25,6 +26,8 @@ namespace JobVacanciesAPI.DAL.Context
 
             modelBuilder.Entity<VacancyTags>()
                 .HasKey(vt => new { vt.VacancyId, vt.TagId });
+            modelBuilder.Entity<CandidateSkills>()
+                .HasKey(cs => new { cs.UserId, cs.TagId });
         }
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {

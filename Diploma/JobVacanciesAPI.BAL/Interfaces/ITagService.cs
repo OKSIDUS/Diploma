@@ -7,5 +7,7 @@ namespace JobVacanciesAPI.BAL.Interfaces
         Task<List<TagDTO>> GetAllAsync();
         Task AddAsync(TagDTO dto);
         Task DeleteAsync(int id);
+
+        Task<UserTags> GetUserTags(int userId);
     }
 }

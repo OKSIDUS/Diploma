@@ -33,5 +33,17 @@ namespace JobVacanciesAPI.BAL.Services
         {
             await _repo.DeleteAsync(id);
         }
+
+        public async Task<UserTags> GetUserTags(int userId)
+        {
+            var allTages = await _repo.GetAllTagNames();
+            var userTags = await _repo.GetUserTags(userId);
+
+            return new UserTags
+            {
+                AllAvailableTags = allTages,
+                SelectedTags = userTags
+            };
+        }
     }
 }

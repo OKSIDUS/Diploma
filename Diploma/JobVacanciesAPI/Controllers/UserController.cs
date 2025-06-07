@@ -9,10 +9,12 @@ namespace JobVacanciesAPI.Controllers
     public class UserController : Controller
     {
         private readonly IUserService _userService;
+        private readonly ITagService _tagService;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, ITagService tagService)
         {
             _userService = userService;
+            _tagService = tagService;
         }
 
 
@@ -54,6 +56,13 @@ namespace JobVacanciesAPI.Controllers
             await _userService.EditCandidateProfile(candidateEdit);
 
             return Ok();
+        }
+
+        [HttpGet("get-user-skills/{id}")]
+        public async Task<IActionResult> GetUserSkills(int id)
+        {
+            var skills = await _tagService.GetUserTags(id);
+            return Ok(skills);
         }
 
     }

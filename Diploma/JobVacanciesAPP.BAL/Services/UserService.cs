@@ -31,6 +31,17 @@ namespace JobVacanciesAPP.BAL.Services
             }
         }
 
+        public async Task<Skills> GetCandidateSkills(int userId)
+        {
+            if (userId > 0)
+            {
+                var skills = await _profileRepository.GetUserSkills(userId);
+                return skills;
+            }
+
+            return null;
+        }
+
         public async Task<UserProfileDTO> GetUserProfileAsync(int userId)
         {
             if (userId < 1)

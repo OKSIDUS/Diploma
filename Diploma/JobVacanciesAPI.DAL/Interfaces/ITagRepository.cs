@@ -7,5 +7,7 @@ namespace JobVacanciesAPI.DAL.Interfaces
         Task<List<Tag>> GetAllAsync();
         Task AddAsync(Tag tag);
         Task DeleteAsync(int id);
+        Task<List<string>> GetUserTags(int userId);
+        Task<List<string>> GetAllTagNames();
     }
 }

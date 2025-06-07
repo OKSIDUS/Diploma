@@ -1,0 +1,36 @@
+﻿@model JobVacanciesAPP.Models.SkillEditViewModel
+
+@{
+    ViewData["Title"] = "Редагування навичок";
+}
+
+<h2>Редагування навичок</h2>
+
+<form asp-action="EditSkills" method="post" class="card p-4 shadow-sm">
+    <div class="mb-3">
+        <label for="skills" class="form-label">Ваші навички</label>
+        <select id="skills" name="SelectedTags" multiple="multiple" class="form-control select2">
+            @foreach (var tag in Model.AllAvailableTags)
+            {
+                <option value="@tag" selected="@(Model.SelectedTags.Contains(tag) ? "selected" : null)">
+                    @tag
+                </option>
+            }
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Зберегти</button>
+</form>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.select2').select2({
+                tags: true,
+                placeholder: "Введіть або оберіть навички",
+                tokenSeparators: [',', ' '],
+                width: '100%'
+            });
+        });
+    </script>
+}

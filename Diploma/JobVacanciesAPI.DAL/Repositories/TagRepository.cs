@@ -34,5 +34,21 @@ namespace JobVacanciesAPI.DAL.Repositories
                 await _context.SaveChangesAsync();
             }
         }
+
+        public async Task<List<string>> GetUserTags(int userId)
+        {
+            var tagIds = await _context.CandidateSkills.Where(x => x.UserId == userId).Select(x => x.TagId).ToListAsync();
+            var tagNames = await _context.Tags
+                .Where(t => tagIds.Contains(t.Id))
+                .Select(t => t.Name)
+                .ToListAsync();
+
+            return tagNames;
+        }
+
+        public async Task<List<string>> GetAllTagNames()
+        {
+            return await _context.Tags.Select(x => x.Name).ToListAsync();
+        }
     }
 }

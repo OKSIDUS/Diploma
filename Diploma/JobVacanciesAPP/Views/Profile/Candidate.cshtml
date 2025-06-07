@@ -14,6 +14,9 @@
         <p><strong>Дата народження:</strong> @Model.Candidate.DateOfBirth.ToString()</p>
         <p><strong>Досвід роботи:</strong> @Model.Candidate.Experience</p>
         <p><strong>Навички:</strong> @Model.Candidate.Skills</p>
+        <form method="get" asp-controller="Profile" asp-action="ViewAndEditSkills">
+            <button type="submit" class="btn btn-outline-primary w-100">Переглянути навички</button>
+        </form>
         <p><strong>Резюме:</strong> <a href="#">@Model.Candidate.ResumeFilePath</a></p>
 
         <form method="get" asp-controller="Profile" asp-action="EditCandidate">

@@ -1,6 +1,7 @@
 ﻿using JobVacanciesAPP.BAL.Interfaces;
 using JobVacanciesAPP.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace JobVacanciesAPP.Controllers
@@ -98,10 +99,6 @@ namespace JobVacanciesAPP.Controllers
         [HttpPost]
         public async Task<IActionResult> EditCandidate([FromForm] EditCandidateProfileViewModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
             int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
             await _userService.EditCandidateProfile(new DAL.Models.Users.CandidateEdit
@@ -117,6 +114,23 @@ namespace JobVacanciesAPP.Controllers
 
             return RedirectToAction("Index");
 
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ViewAndEditSkills()
+        {
+            int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            var skills = await _userService.GetCandidateSkills(userId);
+            
+
+            var model = new SkillEditViewModel
+            {
+                AllAvailableTags = skills.AllAvailableTags,
+                SelectedTags = skills.SelectedTags
+            };
+
+            return View(model);
         }
     }
 }
