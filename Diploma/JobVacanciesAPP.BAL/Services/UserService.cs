@@ -15,6 +15,14 @@ namespace JobVacanciesAPP.BAL.Services
             _profileRepository = profileRepository;
         }
 
+        public async Task EditCandidateProfile(CandidateEdit candidateEdit)
+        {
+            if (candidateEdit != null)
+            {
+                await _profileRepository.EditCandidateProfile(candidateEdit);
+            }
+        }
+
         public async Task EditRecruiterProfile(RecruiterEdit recruiterEdit)
         {
             if (recruiterEdit != null)

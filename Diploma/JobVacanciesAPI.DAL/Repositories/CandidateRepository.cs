@@ -32,7 +32,16 @@ namespace JobVacanciesAPI.DAL.Repositories
 
         public async Task UpdateAsync(Candidate candidate)
         {
-            _context.Candidates.Update(candidate);
+            var oldCandidate = await _context.Candidates.Where(c => c.UserId == candidate.UserId).FirstOrDefaultAsync();
+            if (oldCandidate != null)
+            {
+                oldCandidate.UserId = candidate.UserId;
+                oldCandidate.Skills = candidate.Skills;
+                oldCandidate.FullName = candidate.FullName;
+                oldCandidate.DateOfBirth = candidate.DateOfBirth;
+                oldCandidate.ResumeFilePath  = candidate.ResumeFilePath;
+                oldCandidate.Experience = candidate.Experience;
+            };
             await _context.SaveChangesAsync();
         }
 

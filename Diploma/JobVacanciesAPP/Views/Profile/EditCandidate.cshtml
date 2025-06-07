@@ -1,0 +1,43 @@
+﻿@model JobVacanciesAPP.Models.EditCandidateProfileViewModel
+
+@{
+    ViewData["Title"] = "Редагування профілю кандидата";
+}
+
+<h2 class="mb-4">Редагування профілю кандидата</h2>
+
+<form asp-action="EditCandidate" method="post" class="card p-4 shadow-sm">
+
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label">Email</label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="FullName" class="form-label">ПІБ</label>
+        <input asp-for="FullName" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="DateOfBirth" class="form-label">Дата народження</label>
+        <input asp-for="DateOfBirth" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Experience" class="form-label">Досвід</label>
+        <input asp-for="Experience" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Skills" class="form-label">Навички</label>
+        <textarea asp-for="Skills" class="form-control" rows="3"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Зберегти</button>
+    <a asp-action="Index" class="btn btn-secondary ms-2">Скасувати</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

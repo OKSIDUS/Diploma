@@ -6,5 +6,6 @@ namespace JobVacanciesAPI.BAL.Interfaces
     {
         public Task<UserProfile> GetUserProfileAsync(int userId);
         public Task EditRecruiterProfile(RecruiterEditDTO recruiterEditDTO);
+        public Task EditCandidateProfile(CandidateEditDTO candidateEditDTO);
     }
 }

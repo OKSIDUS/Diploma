@@ -74,5 +74,49 @@ namespace JobVacanciesAPP.Controllers
             return RedirectToAction("Index");
 
         }
+
+        [HttpGet]
+        public async Task<IActionResult> EditCandidate()
+        {
+            int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var profile = await _userService.GetUserProfileAsync(userId);
+
+            var model = new EditCandidateProfileViewModel
+            {
+                Email = profile.User.Email,
+                Skills = profile.Candidate.Skills,
+                ResumeFilePath = profile.Candidate.ResumeFilePath,
+                DateOfBirth = profile.Candidate.DateOfBirth,
+                Experience = profile.Candidate.Experience,
+                FullName = profile.Candidate.FullName,
+            };
+
+            return View(model);
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditCandidate([FromForm] EditCandidateProfileViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            await _userService.EditCandidateProfile(new DAL.Models.Users.CandidateEdit
+            {
+                UserId = userId,
+                FullName = model.FullName,
+                ResumeFilePath = model.ResumeFilePath,
+                DateOfBirth = model.DateOfBirth,
+                Email = model.Email,
+                Experience = model.Experience,
+                Skills = model.Skills
+            });
+
+            return RedirectToAction("Index");
+
+        }
     }
 }

@@ -16,7 +16,9 @@
         <p><strong>Навички:</strong> @Model.Candidate.Skills</p>
         <p><strong>Резюме:</strong> <a href="#">@Model.Candidate.ResumeFilePath</a></p>
 
-        <a href="/Profile/Edit" class="btn btn-outline-primary mt-2">Редагувати профіль</a>
+        <form method="get" asp-controller="Profile" asp-action="EditCandidate">
+            <button type="submit" class="btn btn-outline-primary w-100">Редагувати профіль</button>
+        </form>
     </div>
 </div>
 

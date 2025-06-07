@@ -95,5 +95,23 @@ namespace JobVacanciesAPI.BAL.Services
 
             return profile;
         }
+
+        async Task IUserService.EditCandidateProfile(CandidateEditDTO candidateEditDTO)
+        {
+            if(candidateEditDTO != null)
+            {
+                await _userRepository.EditUserEmail(candidateEditDTO.Email, candidateEditDTO.UserId);
+
+                await _candidateRepository.UpdateAsync(new DAL.Entity.Candidate
+                {
+                    DateOfBirth = candidateEditDTO.DateOfBirth,
+                    Experience = candidateEditDTO.Experience,
+                    FullName = candidateEditDTO.FullName,
+                    ResumeFilePath = candidateEditDTO.ResumeFilePath,
+                    Skills= candidateEditDTO.Skills,
+                    UserId = candidateEditDTO.UserId
+                });
+            }
+        }
     }
 }

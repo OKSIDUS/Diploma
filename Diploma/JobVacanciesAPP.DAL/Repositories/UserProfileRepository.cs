@@ -16,6 +16,22 @@ namespace JobVacanciesAPP.DAL.Repositories
             httpClient.BaseAddress = new Uri(api.BaseUrl);
         }
 
+        public async Task<bool> EditCandidateProfile(CandidateEdit candidate)
+        {
+            if (candidate != null)
+            {
+                var json = JsonSerializer.Serialize(candidate);
+                var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+                var response = await httpClient.PostAsync(httpClient.BaseAddress + "user/edit-candidate-profile", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public async Task<bool> EditRecruiterProfile(RecruiterEdit recruiterProfile)
         {
             if (recruiterProfile != null)

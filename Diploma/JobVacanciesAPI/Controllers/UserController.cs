@@ -43,5 +43,18 @@ namespace JobVacanciesAPI.Controllers
             return Ok();
         }
 
+        [HttpPost("edit-candidate-profile")]
+        public async Task<IActionResult> EditCandidate(CandidateEditDTO candidateEdit)
+        {
+            if (candidateEdit == null)
+            {
+                return BadRequest("Model was null");
+            }
+
+            await _userService.EditCandidateProfile(candidateEdit);
+
+            return Ok();
+        }
+
     }
 }
