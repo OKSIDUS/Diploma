@@ -6,12 +6,12 @@ namespace JobVacanciesAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class VacanciesController : Controller
+    public class VacancyController : Controller
     {
         private readonly IVacancyService _vacancyService;
         private readonly IApplicationService _applicationService;
 
-        public VacanciesController(IVacancyService vacancyService, IApplicationService applicationService)
+        public VacancyController(IVacancyService vacancyService, IApplicationService applicationService)
         {
             _vacancyService = vacancyService;
             _applicationService = applicationService;
@@ -73,6 +73,18 @@ namespace JobVacanciesAPI.Controllers
         {
             var candidates = await _applicationService.GetCandidatesByVacancyIdAsync(id);
             return Ok(candidates);
+        }
+
+        [HttpPost("create-vacancy")]
+        public async Task<IActionResult> CreateNewVacancy(CreateVacancyDTO vacancy)
+        {
+            if(vacancy == null)
+            {
+                return BadRequest();
+            }
+
+            await _vacancyService.CreateVacancy(vacancy);
+            return Ok();
         }
     }
 }

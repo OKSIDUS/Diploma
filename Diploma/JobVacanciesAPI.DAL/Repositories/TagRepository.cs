@@ -117,5 +117,50 @@ namespace JobVacanciesAPI.DAL.Repositories
             }
 
         }
+
+        public async Task SaveVacancySkills(List<string> skills, int vacancyId)
+        {
+            var cleanedSkills = skills
+               .Where(s => !string.IsNullOrWhiteSpace(s))
+               .Select(s => s.Trim())
+               .Distinct(StringComparer.OrdinalIgnoreCase)
+               .ToList();
+
+            var existingTags = await _context.Tags
+                .Where(t => cleanedSkills.Contains(t.Name))
+                .ToListAsync();
+
+            var existingTagNames = existingTags.Select(t => t.Name).ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+            var currentVacancySkills = await _context.VacancyTags
+                .Where(vt => vt.VacancyId == vacancyId)
+                .ToListAsync();
+
+            var newTagIds = existingTags
+                .Where(t => cleanedSkills.Contains(t.Name, StringComparer.OrdinalIgnoreCase))
+                .Select(t => t.Id)
+                .ToHashSet();
+
+            var tagsToRemove = currentVacancySkills
+                .Where(ut => !newTagIds.Contains(ut.TagId))
+                .ToList();
+
+            if (tagsToRemove.Any())
+                _context.VacancyTags.RemoveRange(tagsToRemove);
+
+            var currentTagIds = currentVacancySkills.Select(ut => ut.TagId).ToHashSet();
+            var tagsToAdd = newTagIds
+                .Where(tagId => !currentTagIds.Contains(tagId))
+                .Select(tagId => new VacancyTags
+                {
+                    VacancyId = vacancyId,
+                    TagId = tagId
+                }).ToList();
+
+            if (tagsToAdd.Any())
+                await _context.VacancyTags.AddRangeAsync(tagsToAdd);
+
+            await _context.SaveChangesAsync();
+        }
     }
 }

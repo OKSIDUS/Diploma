@@ -31,10 +31,11 @@ namespace JobVacanciesAPI.DAL.Repositories
                 .ToListAsync();
         }
 
-        public async Task AddAsync(Vacancy vacancy)
+        public async Task<int> AddAsync(Vacancy vacancy)
         {
             _context.Vacancies.Add(vacancy);
             await _context.SaveChangesAsync();
+            return vacancy.Id;
         }
 
         public async Task UpdateAsync(Vacancy vacancy)

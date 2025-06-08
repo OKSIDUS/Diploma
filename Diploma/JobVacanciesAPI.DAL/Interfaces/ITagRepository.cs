@@ -12,5 +12,6 @@ namespace JobVacanciesAPI.DAL.Interfaces
 
         Task SaveUserSkills(List<string> skills, int userId);
         Task SaveNewSkills(List<string> skills);
+        Task SaveVacancySkills(List<string> skills, int vacancyId);
     }
 }

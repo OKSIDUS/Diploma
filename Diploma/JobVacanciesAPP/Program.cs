@@ -22,8 +22,10 @@ namespace JobVacanciesAPP
 
             builder.Services.AddScoped<IAuthRepository, AuthRepository>();
             builder.Services.AddScoped<IUserProfileRepository, UserProfileRepository>();
+            builder.Services.AddScoped<IVacancyRepository, VacancyRepository>();
 
 
+            builder.Services.AddScoped<IVacancyService, VacancyService>();
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IUserService, UserService>();
             // Add services to the container.

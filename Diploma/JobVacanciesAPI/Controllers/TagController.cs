@@ -7,11 +7,11 @@ namespace JobVacanciesAPI.Controllers
 
     [ApiController]
     [Route("api/[controller]")]
-    public class TagsController : Controller
+    public class TagController : Controller
     {
         private readonly ITagService _tagService;
 
-        public TagsController(ITagService tagService)
+        public TagController(ITagService tagService)
         {
             _tagService = tagService;
         }
@@ -20,7 +20,7 @@ namespace JobVacanciesAPI.Controllers
         public async Task<IActionResult> GetAll()
         {
             var tags = await _tagService.GetAllAsync();
-            return Ok(tags);
+            return Ok(tags.Select(t => t.Name).ToList());
         }
 
         [HttpPost("create")]

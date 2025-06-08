@@ -7,7 +7,7 @@ namespace JobVacanciesAPI.DAL.Interfaces
         Task<List<Vacancy>> GetAllAsync();
         Task<Vacancy?> GetByIdAsync(int id);
         Task<List<Vacancy>> GetByRecruiterIdAsync(int recruiterId);
-        Task AddAsync(Vacancy vacancy);
+        Task<int> AddAsync(Vacancy vacancy);
         Task UpdateAsync(Vacancy vacancy);
         Task DeleteAsync(int id);
     }

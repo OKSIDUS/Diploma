@@ -10,5 +10,7 @@ namespace JobVacanciesAPI.BAL.Interfaces
         Task AddAsync(VacancyDTO dto);
         Task UpdateAsync(VacancyDTO dto);
         Task DeleteAsync(int id);
+
+        Task CreateVacancy(CreateVacancyDTO vacancyDTO);
     }
 }

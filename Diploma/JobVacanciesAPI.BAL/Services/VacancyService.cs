@@ -9,12 +9,16 @@ namespace JobVacanciesAPI.BAL.Services
     public class VacancyService : IVacancyService
     {
         private readonly IVacancyRepository _repo;
+        private readonly IRecruiterRepository _recruiterRepository;
+        private readonly ITagRepository _tagRepository;
         private readonly IMapper _mapper;
 
-        public VacancyService(IVacancyRepository repo, IMapper mapper)
+        public VacancyService(IVacancyRepository repo, IMapper mapper, IRecruiterRepository recruiterRepository, ITagRepository tagRepository)
         {
             _repo = repo;
             _mapper = mapper;
+            _recruiterRepository = recruiterRepository;
+            _tagRepository = tagRepository;
         }
 
         public async Task<List<VacancyDTO>> GetAllAsync()
@@ -61,6 +65,40 @@ namespace JobVacanciesAPI.BAL.Services
         public async Task DeleteAsync(int id)
         {
             await _repo.DeleteAsync(id);
+        }
+
+        public async Task CreateVacancy(CreateVacancyDTO vacancyDTO)
+        {
+            if(vacancyDTO != null)
+            {
+                var recruiter = await _recruiterRepository.GetByIdAsync(vacancyDTO.UserId);
+
+                int vacancyId = await _repo.AddAsync(new Vacancy
+                {
+                    CreatedAt = DateTime.Now,
+                    IsActive = true,
+                    SalaryMax = vacancyDTO.VacancyInfo.SalaryMax,
+                    SalaryMin = vacancyDTO.VacancyInfo.SalaryMin,
+                    Description = vacancyDTO.VacancyInfo.Description,
+                    Location = vacancyDTO.VacancyInfo.Location,
+                    Requirements = vacancyDTO.VacancyInfo.Requirements,
+                    Title = vacancyDTO.VacancyInfo.Title,
+                    RecruiterId = recruiter.Id
+                });
+
+                if (vacancyDTO.Skills != null)
+                {
+                    var newTags = vacancyDTO.Skills.SelectedTags
+                        .Where(tag => !vacancyDTO.Skills.AllAvailableTags.Contains(tag))
+                        .ToList();
+
+                    await _tagRepository.SaveNewSkills(newTags);
+                    await _tagRepository.SaveVacancySkills(vacancyDTO.Skills.SelectedTags, vacancyId);
+
+                }
+
+
+            }
         }
     }
 }
