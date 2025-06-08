@@ -44,7 +44,7 @@ namespace JobVacanciesAPI.Controllers
         {
             try
             {
-                await _recommendationService.TrainModelAsync();
+                await _recommendationService.ComputeRecommendation();
                 return Ok();
             }
             catch (Exception ex)
