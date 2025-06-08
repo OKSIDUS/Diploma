@@ -58,5 +58,13 @@ namespace JobVacanciesAPP.BAL.Services
                 Recruiter = profile.Recruiter
             };
         }
+
+        public async Task SaveCandidateSkills(UserSkills skills)
+        {
+            if(skills != null)
+            {
+                await _profileRepository.SaveCandidateSkills(skills);
+            }
+        }
     }
 }

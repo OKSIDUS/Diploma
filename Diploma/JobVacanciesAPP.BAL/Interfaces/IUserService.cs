@@ -9,5 +9,6 @@ namespace JobVacanciesAPP.BAL.Interfaces
         public Task EditRecruiterProfile(RecruiterEdit recruiterEdit);
         public Task EditCandidateProfile(CandidateEdit candidateEdit);
         public Task<Skills> GetCandidateSkills(int userId);
+        public Task SaveCandidateSkills(UserSkills skills);
     }
 }

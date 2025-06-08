@@ -45,5 +45,19 @@ namespace JobVacanciesAPI.BAL.Services
                 SelectedTags = userTags
             };
         }
+
+        public async Task SaveUserSkills(SaveUserSkillsDTO userSkills)
+        {
+            if (userSkills != null)
+            {
+                var newTags = userSkills.SelectedTags
+                    .Where(tag => !userSkills.AllAvailableTags.Contains(tag))
+                    .ToList();
+
+                await _repo.SaveNewSkills(newTags);
+                await _repo.SaveUserSkills(userSkills.SelectedTags, userSkills.UserId);
+
+            }
+        }
     }
 }

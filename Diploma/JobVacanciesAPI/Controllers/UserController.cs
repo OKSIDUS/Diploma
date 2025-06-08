@@ -1,5 +1,7 @@
-﻿using JobVacanciesAPI.BAL.DTOs.User;
+﻿using JobVacanciesAPI.BAL.DTOs.Tag;
+using JobVacanciesAPI.BAL.DTOs.User;
 using JobVacanciesAPI.BAL.Interfaces;
+using JobVacanciesAPP.BAL.DTOs.UserProfile;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JobVacanciesAPI.Controllers
@@ -63,6 +65,19 @@ namespace JobVacanciesAPI.Controllers
         {
             var skills = await _tagService.GetUserTags(id);
             return Ok(skills);
+        }
+
+        [HttpPost("save-user-skills")]
+        public async Task<IActionResult> SaveUserSkills([FromBody]SaveUserSkillsDTO userSkills)
+        {
+            if (userSkills == null)
+            {
+                return BadRequest();
+            }
+
+            await _tagService.SaveUserSkills(userSkills);
+
+            return Ok();
         }
 
     }

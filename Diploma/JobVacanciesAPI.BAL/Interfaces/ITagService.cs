@@ -9,5 +9,6 @@ namespace JobVacanciesAPI.BAL.Interfaces
         Task DeleteAsync(int id);
 
         Task<UserTags> GetUserTags(int userId);
+        Task SaveUserSkills(SaveUserSkillsDTO userSkills);
     }
 }

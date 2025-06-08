@@ -1,4 +1,5 @@
 ﻿using JobVacanciesAPP.BAL.Interfaces;
+using JobVacanciesAPP.DAL.Models.Users;
 using JobVacanciesAPP.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -131,6 +132,22 @@ namespace JobVacanciesAPP.Controllers
             };
 
             return View(model);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> ViewAndEditSkills(SkillEditViewModel model)
+        {
+            int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            UserSkills skills = new UserSkills
+            {
+                UserId = userId,
+                SelectedTags = model.SelectedTags,
+                AllAvailableTags = model.AllAvailableTags,
+            };
+            await _userService.SaveCandidateSkills(skills);
+
+            return RedirectToAction("Index");
         }
     }
 }

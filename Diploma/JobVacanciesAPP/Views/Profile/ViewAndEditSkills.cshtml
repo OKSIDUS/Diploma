@@ -6,7 +6,7 @@
 
 <h2>Редагування навичок</h2>
 
-<form asp-action="EditSkills" method="post" class="card p-4 shadow-sm">
+<form asp-action="ViewAndEditSkills" method="post" class="card p-4 shadow-sm">
     <div class="mb-3">
         <label for="skills" class="form-label">Ваші навички</label>
         <select id="skills" name="SelectedTags" multiple="multiple" class="form-control select2">
@@ -28,7 +28,7 @@
             $('.select2').select2({
                 tags: true,
                 placeholder: "Введіть або оберіть навички",
-                tokenSeparators: [',', ' '],
+                tokenSeparators: [',', '  '],
                 width: '100%'
             });
         });

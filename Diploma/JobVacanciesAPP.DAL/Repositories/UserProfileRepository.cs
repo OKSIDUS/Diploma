@@ -75,5 +75,19 @@ namespace JobVacanciesAPP.DAL.Repositories
 
             return null;
         }
+
+        public async Task SaveCandidateSkills(UserSkills skills)
+        {
+            if (skills != null)
+            {
+                var json = JsonSerializer.Serialize(skills);
+                var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+                var response = await httpClient.PostAsync(httpClient.BaseAddress + "user/save-user-skills", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                }
+            }
+        }
     }
 }

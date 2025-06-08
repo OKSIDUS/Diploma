@@ -8,5 +8,6 @@ namespace JobVacanciesAPP.DAL.Interfaces
         Task<bool> EditRecruiterProfile (RecruiterEdit recruiterProfile);
         Task<bool> EditCandidateProfile(CandidateEdit candidate);
         Task<Skills> GetUserSkills(int userId);
+        Task SaveCandidateSkills(UserSkills skills);
     }
 }
