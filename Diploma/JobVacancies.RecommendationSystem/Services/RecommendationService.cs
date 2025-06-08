@@ -10,6 +10,7 @@ namespace JobVacancies.RecommendationSystem.Services
     public class RecommendationService
     {
         private readonly MLContext _mlContext;
+        private RecommendationModel _recommendationModel = new RecommendationModel();
         private ITransformer _model;
         private readonly IJobVacancyDbContext _dbContext;
 
@@ -19,7 +20,7 @@ namespace JobVacancies.RecommendationSystem.Services
             _dbContext = dbContext;
         }
 
-        public async Task ComputeRecommendation()
+        private async Task ComputeRecommendation()
         {
             var candidateIds = await _dbContext.Candidates.ToListAsync();
             var vacancyIds = await _dbContext.Vacancies.Select(c => c.Id).ToListAsync();
@@ -57,6 +58,59 @@ namespace JobVacancies.RecommendationSystem.Services
                     await _dbContext.SaveChangesAsync();
                 }
             }
+        }
+
+        public async Task<List<(int VacancyId, float Score)>> GetRecommendedVacancies(int candidateId)
+        {
+             await ComputeRecommendation();
+
+            var applications = await _dbContext.Applications
+                .Select(a => new ApplicationData
+                {
+                    CandidateId = a.CandidateId,
+                    VacancyId = a.VacancyId,
+                    Label = a.Status == "Accept" ? 1f : (a.Status == "Pending" ? 0.5f : 0f)
+                })
+                .ToListAsync();
+
+            
+
+            var declinedVacancies = await _dbContext.Applications
+                .Where(a => a.CandidateId == candidateId && a.Status == "Decline")
+                .Select(a => a.VacancyId)
+                .ToListAsync();
+
+            var similarities = await _dbContext.Recommendations
+                .Where(s => s.CandidateId == candidateId && !declinedVacancies.Contains(s.VacancyId))
+                .ToListAsync();
+
+            if (!applications.Any())
+            {
+                return similarities
+                    .OrderByDescending(s => s.Score)
+                    .Take(10)
+                    .Select(s => (s.VacancyId, (float)s.Score))
+                    .ToList();
+            }
+            var model = new RecommendationModel();
+            model.Train(applications);
+            model.Save("model.zip");
+
+            var recommendations = new List<(int VacancyId, float Score)>();
+
+            foreach (var sim in similarities)
+            {
+                if (sim.Score < 0.1f)
+                    continue;
+
+                float mlScore = _recommendationModel.Predict(candidateId, sim.VacancyId);
+
+                float finalScore = 0.5f * (float)sim.Score + 0.5f * mlScore;
+
+                recommendations.Add((sim.VacancyId, finalScore));
+            }
+
+            return recommendations.OrderByDescending(r => r.Score).Take(10).ToList();
         }
 
 

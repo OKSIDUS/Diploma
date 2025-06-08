@@ -44,8 +44,8 @@ namespace JobVacanciesAPI.Controllers
         {
             try
             {
-                await _recommendationService.ComputeRecommendation();
-                return Ok();
+                 var result = await _recommendationService.GetRecommendedVacancies(32);
+                return Ok(result);
             }
             catch (Exception ex)
             {
