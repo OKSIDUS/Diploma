@@ -13,5 +13,7 @@ namespace JobVacanciesAPI.BAL.Interfaces
 
         Task CreateVacancy(CreateVacancyDTO vacancyDTO);
         Task<VacancyPage> GetVacancyPage(int page, int pageSize, bool isRecommendation, int userId);
+
+        Task ApplyVacancy(int vacancyId, int  userId);
     }
 }

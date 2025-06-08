@@ -29,5 +29,10 @@ namespace JobVacanciesAPP.BAL.Services
 
             return skills;
         }
+
+        public async Task VacancyApply(int vacancyId, int userId)
+        {
+            await _repository.VacancyApply(vacancyId, userId);
+        }
     }
 }

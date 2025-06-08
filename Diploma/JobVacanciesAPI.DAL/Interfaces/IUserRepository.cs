@@ -13,6 +13,7 @@ namespace JobVacanciesAPI.DAL.Interfaces
 
         Task EditUserEmail(string email, int userId);
         Task<string> GetUserRole(int userId);
+        Task<int> GetCandidateId (int userId);
     }
 
 }

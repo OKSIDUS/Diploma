@@ -50,7 +50,8 @@ namespace JobVacancies.RecommendationSystem.Services
                         {
                             CandidateId = candidateId.Id,
                             VacancyId = vacancyId,
-                            Score = score
+                            Score = score,
+                            GeneratedAt = DateTime.Now
                         };
                         _dbContext.Recommendations.Add(newRecommendation);
                     }
@@ -73,20 +74,25 @@ namespace JobVacancies.RecommendationSystem.Services
                 })
                 .ToListAsync();
 
-            
 
+            var appliedVacancies = await _dbContext.Applications
+                .Where(a => a.CandidateId == candidateId)
+                .Select(a => a.VacancyId)
+                .ToListAsync();
             var declinedVacancies = await _dbContext.Applications
                 .Where(a => a.CandidateId == candidateId && a.Status == "Decline")
                 .Select(a => a.VacancyId)
                 .ToListAsync();
 
             var similarities = await _dbContext.Recommendations
-                .Where(s => s.CandidateId == candidateId && !declinedVacancies.Contains(s.VacancyId))
+                .Where(s => s.CandidateId == candidateId && !declinedVacancies.Contains(s.VacancyId) &&
+                    !appliedVacancies.Contains(s.VacancyId))
                 .ToListAsync();
 
             if (!applications.Any())
             {
                 return similarities
+                    .Where(s => s.Score > 0.5F)
                     .OrderByDescending(s => s.Score)
                     .Take(10)
                     .Select(s => (s.VacancyId, (float)s.Score))

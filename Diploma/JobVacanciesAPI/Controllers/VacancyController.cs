@@ -93,5 +93,13 @@ namespace JobVacanciesAPI.Controllers
             var vacancies = await _vacancyService.GetVacancyPage(page, pageSize, isRecommendation, userId);
             return Ok(vacancies);
         }
+
+        [HttpGet("apply-vacancy")]
+        public async Task<IActionResult> ApplyVacation(int vacancyId, int userId)
+        {
+            await _vacancyService.ApplyVacancy(vacancyId, userId);
+
+            return Ok();
+        }
     }
 }

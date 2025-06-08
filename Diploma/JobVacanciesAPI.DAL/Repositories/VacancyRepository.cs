@@ -64,5 +64,19 @@ namespace JobVacanciesAPI.DAL.Repositories
         {
             return await _context.Vacancies.Where(v => ids.Contains(v.Id)).ToListAsync();
         }
+
+        public async Task VacancyApply(int vacancyId, int candidateId)
+        {
+            var application = new Application
+            {
+                CandidateId = candidateId,
+                Status = "Pending",
+                SubmittedAt = DateTime.UtcNow,
+                VacancyId = vacancyId,
+            };
+
+            await _context.Applications.AddAsync(application);
+            await _context.SaveChangesAsync();
+        }
     }
 }

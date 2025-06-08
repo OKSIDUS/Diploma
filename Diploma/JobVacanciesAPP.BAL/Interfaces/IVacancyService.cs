@@ -7,5 +7,6 @@ namespace JobVacanciesAPP.BAL.Interfaces
     {
         Task CreateVacancy(CreateVacancy vacancy);
         Task<Skills> GetAllSkills();
+        Task VacancyApply(int vacancyId, int userId);
     }
 }

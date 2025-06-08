@@ -25,60 +25,31 @@
     </div>
 </div>
 
-<div class="card">
-    <div class="card-body">
-        <h5 class="card-title mb-4">Рекомендовані вакансії для вас</h5>
-        <div class="row">
-            <!-- Вакансія 1 -->
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Junior .NET Developer</h5>
-                        <p><strong>Компанія:</strong> SoftVision</p>
-                        <p><strong>Локація:</strong> Київ / Remote</p>
-                        <p>Позиція для розробника-початківця зі знанням ASP.NET Core.</p>
-                        <p><strong>Теги:</strong> .NET, Remote, Junior</p>
-                    </div>
-                    <div class="card-footer d-flex justify-content-between">
-                        <a href="#" class="btn btn-outline-info btn-sm">Детальніше</a>
-                        <a href="#" class="btn btn-success btn-sm">Подати заявку</a>
-                    </div>
-                </div>
-            </div>
+<h3 class="mt-4">Рекомендовані вакансії</h3>
 
-            <!-- Вакансія 2 -->
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">AI Talent Analyst</h5>
-                        <p><strong>Компанія:</strong> HRTech Global</p>
-                        <p><strong>Локація:</strong> Львів</p>
-                        <p>Участь у розробці AI-рекомендацій для системи пошуку персоналу.</p>
-                        <p><strong>Теги:</strong> AI, SQL, Full-time</p>
-                    </div>
-                    <div class="card-footer d-flex justify-content-between">
-                        <a href="#" class="btn btn-outline-info btn-sm">Детальніше</a>
-                        <a href="#" class="btn btn-success btn-sm">Подати заявку</a>
-                    </div>
-                </div>
+@if (Model.VacancyPage?.Vacancies != null && Model.VacancyPage.Vacancies.Any())
+{
+    <div class="vacancy-list">
+        @foreach (var vacancy in Model.VacancyPage.Vacancies)
+        {
+            <div class="card mb-3 p-3 shadow-sm rounded">
+                <h5>@vacancy.Title</h5>
+                <p>@vacancy.Description</p>
+                <p><strong>Місто:</strong> @vacancy.Location</p>
             </div>
+            <div class="d-flex gap-2 mb-2">
+            <a asp-controller="Vacancy" asp-action="Details" asp-route-id="@vacancy.Id" class="btn btn-primary btn-sm">
+                Переглянути
+            </a>
 
-            <!-- Вакансія 3 -->
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">QA Engineer</h5>
-                        <p><strong>Компанія:</strong> TalentMatch Inc.</p>
-                        <p><strong>Локація:</strong> Харків</p>
-                        <p>Тестування модулів обробки заявок, профілів та рекомендацій.</p>
-                        <p><strong>Теги:</strong> QA, .NET, Full-time</p>
-                    </div>
-                    <div class="card-footer d-flex justify-content-between">
-                        <a href="#" class="btn btn-outline-info btn-sm">Детальніше</a>
-                        <a href="#" class="btn btn-success btn-sm">Подати заявку</a>
-                    </div>
-                </div>
-            </div>
+            <form asp-controller="Vacancy" asp-action="Apply" asp-route-id="@vacancy.Id" method="post" onsubmit="return confirm('Ви дійсно хочете відгукнутися на цю вакансію?');">
+                <button type="submit" class="btn btn-success btn-sm">Відгукнутися</button>
+            </form>
         </div>
+        }
     </div>
-</div>
+}
+else
+{
+    <p>Поки що немає рекомендацій.</p>
+}

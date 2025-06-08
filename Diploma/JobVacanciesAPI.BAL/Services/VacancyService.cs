@@ -111,6 +111,7 @@ namespace JobVacanciesAPI.BAL.Services
             VacancyPage vacancy = new VacancyPage();
             vacancy.Page = page;
             vacancy.PageSize = pageSize;
+            vacancy.Vacancies = new();
             if (userId > 0)
             {
                 var userRole = await _userRepository.GetUserRole(userId);
@@ -138,7 +139,8 @@ namespace JobVacanciesAPI.BAL.Services
                 {
                     if (isRecommendation)
                     {
-                        var vacanciesRec = await _recommendationService.GetRecommendedVacancies(userId);
+                        var candidateId = await _userRepository.GetCandidateId(userId);
+                        var vacanciesRec = await _recommendationService.GetRecommendedVacancies(candidateId);
                         var vacanciesIds = vacanciesRec.Select(v => v.VacancyId).ToList();
                         var vacancies = await _repo.GetVacanciesByIds(vacanciesIds);
                         vacancy.PageCount = 1;
@@ -189,6 +191,13 @@ namespace JobVacanciesAPI.BAL.Services
         {
             var totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
             return totalPages;
+        }
+
+        public async Task ApplyVacancy(int vacancyId, int userId)
+        {
+            var candidateId = await _userRepository.GetCandidateId(userId);
+
+            await _repo.VacancyApply(vacancyId, candidateId);
         }
     }
 }

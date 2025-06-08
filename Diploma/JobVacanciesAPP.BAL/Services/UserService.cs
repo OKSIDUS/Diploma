@@ -1,4 +1,5 @@
-﻿using JobVacanciesAPP.BAL.DTOs.UserProfile;
+﻿using JobVacanciesAPI.DAL.Entity;
+using JobVacanciesAPP.BAL.DTOs.UserProfile;
 using JobVacanciesAPP.BAL.Interfaces;
 using JobVacanciesAPP.DAL.Interfaces;
 using JobVacanciesAPP.DAL.Models.Users;
@@ -51,8 +52,18 @@ namespace JobVacanciesAPP.BAL.Services
                 return null;
             }
 
+            var vacancy = new DAL.Models.Vacancy.VacancyPage();
+
             var profile = await _profileRepository.GetUserProfileAsync(userId);
-            var vacancy = await _vacancyRepository.GetVacanciesForRecruiter(1, 10, false, userId);
+            if (profile.Candidate == null)
+            {
+                vacancy = await _vacancyRepository.GetVacanciesForRecruiter(1, 10, false, userId);
+            }
+            else
+            {
+                vacancy = await _vacancyRepository.GetRecommendetVacancies(1, 10, true, userId);
+            }
+             
 
             return new UserProfileDTO
             {

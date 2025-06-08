@@ -33,5 +33,16 @@ namespace JobVacanciesAPP.Controllers
 
             return RedirectToAction("Index", "Profile");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Apply(int id)
+        {
+            int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            await _vacancyService.VacancyApply(id, userId);
+
+            return RedirectToAction("Index", "Profile");
+
+        }
     }
 }

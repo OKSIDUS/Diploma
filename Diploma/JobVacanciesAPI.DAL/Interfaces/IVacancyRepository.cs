@@ -12,6 +12,8 @@ namespace JobVacanciesAPI.DAL.Interfaces
         Task DeleteAsync(int id);
         Task<List<Vacancy>> GetNewVacancies();
         Task<List<Vacancy>> GetVacanciesByIds(List<int> ids);
+
+        Task VacancyApply(int vacancyId, int candidateId);
     }
 
 }

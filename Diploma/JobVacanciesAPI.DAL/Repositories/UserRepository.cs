@@ -56,5 +56,10 @@ namespace JobVacanciesAPI.DAL.Repositories
         {
             return await _context.Users.Where(u => u.Id == userId).Select(u => u.Role).FirstOrDefaultAsync();
         }
+
+        public async Task<int> GetCandidateId(int userId)
+        {
+            return await _context.Candidates.Where(c => c.UserId == userId).Select(c => c.Id).FirstOrDefaultAsync();
+        }
     }
 }
