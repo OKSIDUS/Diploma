@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\JobVacancies.RecommendationSystem\JobVacancies.RecommendationSystem.csproj" />
     <ProjectReference Include="..\JobVacanciesAPI.DAL\JobVacanciesAPI.DAL.csproj" />
   </ItemGroup>
 

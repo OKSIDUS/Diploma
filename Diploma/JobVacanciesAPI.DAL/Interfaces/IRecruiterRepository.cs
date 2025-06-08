@@ -9,5 +9,7 @@ namespace JobVacanciesAPI.DAL.Interfaces
         Task AddAsync(Recruiter recruiter);
         Task UpdateAsync(Recruiter recruiter);
         Task DeleteAsync(int id);
+        Task<string> GetRecruiterCompany(int userId);
+        Task<string> GetRecruiterCompanyById(int recruiterId);
     }
 }

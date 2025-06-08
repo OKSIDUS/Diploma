@@ -10,6 +10,8 @@ namespace JobVacanciesAPI.DAL.Interfaces
         Task<int> AddAsync(Vacancy vacancy);
         Task UpdateAsync(Vacancy vacancy);
         Task DeleteAsync(int id);
+        Task<List<Vacancy>> GetNewVacancies();
+        Task<List<Vacancy>> GetVacanciesByIds(List<int> ids);
     }
 
 }

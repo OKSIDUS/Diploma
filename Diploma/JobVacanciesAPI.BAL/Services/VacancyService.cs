@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using JobVacancies.RecommendationSystem.Services;
 using JobVacanciesAPI.BAL.DTOs.Vacancy;
 using JobVacanciesAPI.BAL.Interfaces;
 using JobVacanciesAPI.DAL.Entity;
@@ -8,17 +9,21 @@ namespace JobVacanciesAPI.BAL.Services
 {
     public class VacancyService : IVacancyService
     {
+        private readonly RecommendationService _recommendationService;
         private readonly IVacancyRepository _repo;
         private readonly IRecruiterRepository _recruiterRepository;
         private readonly ITagRepository _tagRepository;
         private readonly IMapper _mapper;
+        private readonly IUserRepository _userRepository;
 
-        public VacancyService(IVacancyRepository repo, IMapper mapper, IRecruiterRepository recruiterRepository, ITagRepository tagRepository)
+        public VacancyService(IVacancyRepository repo, IMapper mapper, IRecruiterRepository recruiterRepository, ITagRepository tagRepository, IUserRepository userRepository, RecommendationService recommendationService)
         {
             _repo = repo;
             _mapper = mapper;
             _recruiterRepository = recruiterRepository;
             _tagRepository = tagRepository;
+            _userRepository = userRepository;
+            _recommendationService = recommendationService;
         }
 
         public async Task<List<VacancyDTO>> GetAllAsync()
@@ -99,6 +104,88 @@ namespace JobVacanciesAPI.BAL.Services
 
 
             }
+        }
+
+        public async Task<VacancyPage> GetVacancyPage(int page, int pageSize, bool isRecommendation, int userId)
+        {
+            VacancyPage vacancy = new VacancyPage();
+            vacancy.Page = page;
+            vacancy.PageSize = pageSize;
+            if (userId > 0)
+            {
+                var userRole = await _userRepository.GetUserRole(userId);
+
+                if (userRole == "Recruiter")
+                {
+                    var company = await _recruiterRepository.GetRecruiterCompany(userId);
+                    var vacancies = await _repo.GetByRecruiterIdAsync(userId);
+                    var totalItems = PageCount(vacancies.Count, pageSize);
+                    var items = vacancies
+                        .Skip((page - 1) * pageSize)
+                        .Take(pageSize)
+                        .ToList();
+                    vacancy.PageCount = totalItems;
+                    vacancy.Vacancies = items.Select(i => new VacancyShortInfo
+                    {
+                        Description = i.Description,
+                        Location = i.Location,
+                        Id = i.Id,
+                        Company ="company"
+                    }).ToList();
+                }
+                if (userRole == "Candidate")
+                {
+                    if (isRecommendation)
+                    {
+                        var vacanciesRec = await _recommendationService.GetRecommendedVacancies(userId);
+                        var vacanciesIds = vacanciesRec.Select(v => v.VacancyId).ToList();
+                        var vacancies = await _repo.GetVacanciesByIds(vacanciesIds);
+                        vacancy.PageCount = 1;
+                        foreach (var item in vacancies)
+                        {
+                            var companyName = await _recruiterRepository.GetRecruiterCompanyById(item.RecruiterId);
+                            vacancy.Vacancies.Add(new VacancyShortInfo
+                            {
+                                Company = companyName,
+                                Description = item.Description,
+                                Id = item.Id,
+                                Location = item.Location,
+                            });
+                        }
+
+                    }
+                    else
+                    {
+                        var vacancies = await _repo.GetNewVacancies();
+                        var totalItems = PageCount(vacancies.Count, pageSize);
+                        var items = vacancies
+                             .Skip((page - 1) * pageSize)
+                             .Take(pageSize)
+                             .ToList();
+                        vacancy.PageCount = totalItems;
+                        foreach (var item in items)
+                        {
+                            var companyName = await _recruiterRepository.GetRecruiterCompanyById(item.RecruiterId);
+                            vacancy.Vacancies.Add(new VacancyShortInfo
+                            {
+                                Company = companyName,
+                                Description = item.Description,
+                                Id = item.Id,
+                                Location = item.Location,
+                            });
+                        }
+                    }
+                    
+                }
+            }
+
+            return vacancy;
+        }
+
+        private int PageCount(int totalItems, int pageSize)
+        {
+            var totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+            return totalPages;
         }
     }
 }

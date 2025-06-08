@@ -53,5 +53,16 @@ namespace JobVacanciesAPI.DAL.Repositories
                 await _context.SaveChangesAsync();
             }
         }
+
+        public async Task<string> GetRecruiterCompany(int userId)
+        {
+            return await _context.Recruiters.Where(r => r.UserId == userId).Select(r => r.CompanyName).FirstOrDefaultAsync();
+        }
+
+        public async Task<string> GetRecruiterCompanyById(int recruiterId)
+        {
+            return await _context.Recruiters.Where(r => r.Id == recruiterId).Select(r => r.CompanyName).FirstOrDefaultAsync();
+
+        }
     }
 }

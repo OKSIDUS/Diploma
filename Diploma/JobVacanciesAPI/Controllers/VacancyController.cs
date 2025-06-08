@@ -86,5 +86,12 @@ namespace JobVacanciesAPI.Controllers
             await _vacancyService.CreateVacancy(vacancy);
             return Ok();
         }
+
+        [HttpGet("get-vacancies-page")]
+        public async Task<IActionResult> GetVacationPage(int page, int pageSize, bool isRecommendation, int userId)
+        {
+            var vacancies = await _vacancyService.GetVacancyPage(page, pageSize, isRecommendation, userId);
+            return Ok(vacancies);
+        }
     }
 }

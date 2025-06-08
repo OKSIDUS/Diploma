@@ -26,8 +26,9 @@ namespace JobVacanciesAPI.DAL.Repositories
 
         public async Task<List<Vacancy>> GetByRecruiterIdAsync(int recruiterId)
         {
+            var Id = await _context.Recruiters.Where(r => r.UserId == recruiterId).Select(r => r.Id).FirstOrDefaultAsync();
             return await _context.Vacancies
-                .Where(v => v.RecruiterId == recruiterId)
+                .Where(v => v.RecruiterId == Id)
                 .ToListAsync();
         }
 
@@ -52,6 +53,16 @@ namespace JobVacanciesAPI.DAL.Repositories
                 _context.Vacancies.Remove(vacancy);
                 await _context.SaveChangesAsync();
             }
+        }
+
+        public async Task<List<Vacancy>> GetNewVacancies()
+        {
+            return await _context.Vacancies.Where(v => v.IsActive == true).OrderByDescending(v => v.CreatedAt).ToListAsync();
+        }
+
+        public async Task<List<Vacancy>> GetVacanciesByIds(List<int> ids)
+        {
+            return await _context.Vacancies.Where(v => ids.Contains(v.Id)).ToListAsync();
         }
     }
 }
