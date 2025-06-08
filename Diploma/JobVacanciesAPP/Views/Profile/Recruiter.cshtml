@@ -24,43 +24,33 @@
 </div>
 <!-- Активні вакансії -->
 <div class="card mb-4">
-    <div class="card-header fw-bold">Мої активні вакансії</div>
-    <div class="card-body">
+    <div class="card-header fw-bold">Мої вакансії</div>
+        @if (Model.VacancyPage != null && Model.VacancyPage.Vacancies.Any())
+        {
+            <div class="list-group">
+                @foreach (var vacancy in Model.VacancyPage.Vacancies)
+                {
+                    <div class="list-group-item">
+                        <h5>@vacancy.Title</h5>
+                        <p>@vacancy.Description</p>
+                        <p><strong>Локація:</strong> @vacancy.Location</p>
+                    </div>
+                    <div class="d-flex gap-2">
+                    <a asp-controller="Vacancy" asp-action="Details" asp-route-id="@vacancy.Id" class="btn btn-primary btn-sm">
+                        Переглянути
+                    </a>
 
-        <!-- Вакансія 1 -->
-        <div class="mb-4 border-bottom pb-3">
-            <h5>Middle .NET Developer</h5>
-            <p><strong>Локація:</strong> Київ / Remote</p>
-            <p><strong>Опубліковано:</strong> 10 квітня 2025</p>
-            <p><strong>Статус:</strong> <span class="badge bg-success">Активна</span></p>
-            <div class="d-flex gap-2">
-                <button class="btn btn-info text-white">Переглянути</button>
-                <button class="btn btn-warning text-dark">Редагувати</button>
+                    <form asp-controller="Vacancy" asp-action="Archive" asp-route-id="@vacancy.Id" method="post" onsubmit="return confirm('Архівувати вакансію?');">
+                        <button type="submit" class="btn btn-danger btn-sm">Архівувати</button>
+                    </form>
+                </div>
+                }
             </div>
-        </div>
-
-        <!-- Вакансія 2 -->
-        <div class="mb-4 border-bottom pb-3">
-            <h5>AI Engineer (HR Recommendation Systems)</h5>
-            <p><strong>Локація:</strong> Львів</p>
-            <p><strong>Опубліковано:</strong> 6 березня 2025</p>
-            <p><strong>Статус:</strong> <span class="badge bg-success">Активна</span></p>
-            <div class="d-flex gap-2">
-                <button class="btn btn-info text-white">Переглянути</button>
-                <button class="btn btn-warning text-dark">Редагувати</button>
-            </div>
-        </div>
-
-        <!-- Вакансія 3 -->
-        <div class="mb-4">
-            <h5>Junior QA Engineer</h5>
-            <p><strong>Локація:</strong> Харків</p>
-            <p><strong>Опубліковано:</strong> 25 лютого 2025</p>
-            <p><strong>Статус:</strong> <span class="badge bg-secondary">Неактивна</span></p>
-            <div>
-                <button class="btn btn-secondary disabled">Архівована</button>
-            </div>
-        </div>
-
+        }
+        else
+        {
+            <p>У вас поки немає створених вакансій.</p>
+        }
     </div>
+}
 </div>

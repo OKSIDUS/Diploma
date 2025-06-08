@@ -6,5 +6,6 @@ namespace JobVacanciesAPP.DAL.Interfaces
     {
         Task CreateVacancy(CreateVacancy vacancy);
         Task<List<string>> GetAllSkills();
+        Task<VacancyPage> GetVacanciesForRecruiter(int page, int pageSize, bool isRecommendation, int userId);
     }
 }

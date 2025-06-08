@@ -43,5 +43,18 @@ namespace JobVacanciesAPP.DAL.Repositories
 
             return null;
         }
+
+        public async Task<VacancyPage> GetVacanciesForRecruiter(int page, int pageSize, bool isRecommendation, int userId)
+        {
+            var response = await httpClient.GetAsync($"vacancy/get-vacancies-page?page={page}&pageSize={pageSize}&isRecommendation={isRecommendation.ToString().ToLower()}&userId={userId}");
+
+            if(response.IsSuccessStatusCode)
+            {
+                var vacancyPage = await response.Content.ReadFromJsonAsync<VacancyPage>();
+                return vacancyPage;
+            }
+
+            return null;
+        }
     }
 }

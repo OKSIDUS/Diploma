@@ -52,6 +52,16 @@ namespace JobVacanciesAPI
             builder.Services.AddScoped<ITagService, TagService>();
             builder.Services.AddScoped<IUserService, UserService>();
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowLocalhost", policy =>
+                {
+                    policy.WithOrigins("https://localhost:7260") 
+                          .AllowAnyHeader()
+                          .AllowAnyMethod();
+                });
+            });
+
 
             builder.Services.AddSingleton<MLContext>(new MLContext());
             builder.Services.AddScoped<RecommendationService>();

@@ -31,7 +31,7 @@ namespace JobVacanciesAPP.Controllers
             vacancy.UserId = userId;
             await _vacancyService.CreateVacancy(vacancy);
 
-            return RedirectToAction("Index", "Recruiter");
+            return RedirectToAction("Index", "Profile");
         }
     }
 }

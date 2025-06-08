@@ -129,6 +129,7 @@ namespace JobVacanciesAPI.BAL.Services
                     {
                         Description = i.Description,
                         Location = i.Location,
+                        Title = i.Title,
                         Id = i.Id,
                         Company ="company"
                     }).ToList();
@@ -149,6 +150,7 @@ namespace JobVacanciesAPI.BAL.Services
                                 Company = companyName,
                                 Description = item.Description,
                                 Id = item.Id,
+                                Title = item.Title,
                                 Location = item.Location,
                             });
                         }
@@ -171,6 +173,7 @@ namespace JobVacanciesAPI.BAL.Services
                                 Company = companyName,
                                 Description = item.Description,
                                 Id = item.Id,
+                                Title = item.Title,
                                 Location = item.Location,
                             });
                         }

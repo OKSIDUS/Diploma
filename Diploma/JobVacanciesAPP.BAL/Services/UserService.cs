@@ -9,10 +9,12 @@ namespace JobVacanciesAPP.BAL.Services
     public class UserService : IUserService
     {
         private readonly IUserProfileRepository _profileRepository;
+        private readonly IVacancyRepository _vacancyRepository;
 
-        public UserService(IUserProfileRepository profileRepository)
+        public UserService(IUserProfileRepository profileRepository, IVacancyRepository vacancyRepository)
         {
             _profileRepository = profileRepository;
+            _vacancyRepository = vacancyRepository;
         }
 
         public async Task EditCandidateProfile(CandidateEdit candidateEdit)
@@ -50,12 +52,15 @@ namespace JobVacanciesAPP.BAL.Services
             }
 
             var profile = await _profileRepository.GetUserProfileAsync(userId);
+            var vacancy = await _vacancyRepository.GetVacanciesForRecruiter(1, 10, false, userId);
 
             return new UserProfileDTO
             {
                 User = profile.User,
                 Candidate = profile.Candidate,
-                Recruiter = profile.Recruiter
+                Recruiter = profile.Recruiter,
+                VacancyPage = vacancy,
+                
             };
         }
 
