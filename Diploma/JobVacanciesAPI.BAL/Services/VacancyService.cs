@@ -109,7 +109,7 @@ namespace JobVacanciesAPI.BAL.Services
             }
         }
 
-        public async Task<VacancyPage> GetVacancyPage(int page, int pageSize, bool isRecommendation, int userId, string keyword)
+        public async Task<VacancyPage> GetVacancyPage(int page, int pageSize, bool isRecommendation, int userId, bool mainPage, string keyword)
         {
             VacancyPage vacancy = new VacancyPage();
             vacancy.Page = page;
@@ -121,31 +121,64 @@ namespace JobVacanciesAPI.BAL.Services
 
                 if (userRole == "Recruiter")
                 {
-                    var company = await _recruiterRepository.GetRecruiterCompany(userId);
-                    var vacancies = await _repo.GetByRecruiterIdAsync(userId);
-                    IEnumerable<Vacancy> filtered = vacancies;
-
-                    if (!string.IsNullOrWhiteSpace(keyword))
+                    if (mainPage)
                     {
-                        filtered = filtered.Where(v => v.Title.Contains(keyword, StringComparison.OrdinalIgnoreCase));
+                        var vacancies = await _repo.GetAllAsync();
+                        IEnumerable<Vacancy> filtered = vacancies;
+
+                        if (!string.IsNullOrWhiteSpace(keyword))
+                        {
+                            filtered = filtered.Where(v => v.Title.Contains(keyword, StringComparison.OrdinalIgnoreCase));
+                        }
+                        var filteredList = filtered.ToList();
+                        var totalItems = PageCount(filteredList.Count, pageSize);
+                        var items = filteredList
+                             .Skip((page - 1) * pageSize)
+                             .Take(pageSize)
+                             .ToList();
+                        vacancy.PageCount = totalItems;
+                        foreach (var item in items)
+                        {
+                            var companyName = await _recruiterRepository.GetRecruiterCompanyById(item.RecruiterId);
+                            vacancy.Vacancies.Add(new VacancyShortInfo
+                            {
+                                Company = companyName,
+                                Description = item.Description,
+                                Id = item.Id,
+                                Title = item.Title,
+                                Location = item.Location,
+                            });
+                        }
                     }
-
-                    var filteredList = filtered.ToList();
-                    var totalItems = PageCount(filteredList.Count, pageSize);
-
-                    var items = filteredList
-                        .Skip((page - 1) * pageSize)
-                        .Take(pageSize)
-                        .ToList();
-                    vacancy.PageCount = totalItems;
-                    vacancy.Vacancies = items.Select(i => new VacancyShortInfo
+                    else
                     {
-                        Description = i.Description,
-                        Location = i.Location,
-                        Title = i.Title,
-                        Id = i.Id,
-                        Company ="company"
-                    }).ToList();
+                        var company = await _recruiterRepository.GetRecruiterCompany(userId);
+                        var vacancies = await _repo.GetByRecruiterIdAsync(userId);
+                        IEnumerable<Vacancy> filtered = vacancies;
+
+                        if (!string.IsNullOrWhiteSpace(keyword))
+                        {
+                            filtered = filtered.Where(v => v.Title.Contains(keyword, StringComparison.OrdinalIgnoreCase));
+                        }
+
+                        var filteredList = filtered.ToList();
+                        var totalItems = PageCount(filteredList.Count, pageSize);
+
+                        var items = filteredList
+                            .Skip((page - 1) * pageSize)
+                            .Take(pageSize)
+                            .ToList();
+                        vacancy.PageCount = totalItems;
+                        vacancy.Vacancies = items.Select(i => new VacancyShortInfo
+                        {
+                            Description = i.Description,
+                            Location = i.Location,
+                            Title = i.Title,
+                            Id = i.Id,
+                            Company = "company"
+                        }).ToList();
+                    }
+                    
                 }
                 if (userRole == "Candidate")
                 {

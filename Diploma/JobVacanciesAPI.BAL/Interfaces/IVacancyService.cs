@@ -12,7 +12,7 @@ namespace JobVacanciesAPI.BAL.Interfaces
         Task DeleteAsync(int id);
 
         Task CreateVacancy(CreateVacancyDTO vacancyDTO);
-        Task<VacancyPage> GetVacancyPage(int page, int pageSize, bool isRecommendation, int userId, string keyword);
+        Task<VacancyPage> GetVacancyPage(int page, int pageSize, bool isRecommendation, int userId,bool mainPage, string keyword);
 
         Task ApplyVacancy(int vacancyId, int  userId);
 

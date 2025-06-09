@@ -16,7 +16,7 @@ namespace JobVacanciesAPI.DAL.Repositories
 
         public async Task<List<Vacancy>> GetAllAsync()
         {
-            return await _context.Vacancies.ToListAsync();
+            return await _context.Vacancies.OrderByDescending(v => v.CreatedAt).ToListAsync();
         }
 
         public async Task<Vacancy?> GetByIdAsync(int id)

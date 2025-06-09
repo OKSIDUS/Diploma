@@ -21,7 +21,7 @@ namespace JobVacanciesAPP.Controllers
         {
             int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-            var model = await _vacancyService.GetVacancyPage(page, 10, userId, false, keyword);
+            var model = await _vacancyService.GetVacancyPage(page, 10, userId, false,true ,keyword);
             return View(model);
         }
     }

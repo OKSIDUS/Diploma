@@ -46,9 +46,9 @@ namespace JobVacanciesAPP.BAL.Services
             return await _repository.GetVacancy(vacancyId);
         }
 
-        public async Task<VacancyPage> GetVacancyPage(int page, int pageSize, int userId, bool isRecommendation, string keyword = "")
+        public async Task<VacancyPage> GetVacancyPage(int page, int pageSize, int userId, bool isRecommendation,bool mainPage, string keyword = "")
         {
-            return await _repository.GetAllVacancy(page, pageSize, false, userId, keyword);
+            return await _repository.GetAllVacancy(page, pageSize, false, userId,mainPage, keyword);
         }
 
         public async Task<VacancyRecruiterDTO> GetVacancyRecruiter(int vacancyId)

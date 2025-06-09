@@ -55,9 +55,9 @@ namespace JobVacanciesAPP.DAL.Repositories
             return null;
         }
 
-        public async Task<VacancyPage> GetAllVacancy(int page, int pageSize, bool isRecommendation, int userId, string keyword)
+        public async Task<VacancyPage> GetAllVacancy(int page, int pageSize, bool isRecommendation, int userId, bool mainPage, string keyword)
         {
-            var url = $"vacancy/get-vacancies-page?page={page}&pageSize={pageSize}&isRecommendation={isRecommendation.ToString().ToLower()}&userId={userId}";
+            var url = $"vacancy/get-vacancies-page?page={page}&pageSize={pageSize}&isRecommendation={isRecommendation.ToString().ToLower()}&mainPage={mainPage.ToString().ToLower()}&userId={userId}";
             if (!string.IsNullOrWhiteSpace(keyword))
             {
                 url += $"&keyword={Uri.EscapeDataString(keyword)}";

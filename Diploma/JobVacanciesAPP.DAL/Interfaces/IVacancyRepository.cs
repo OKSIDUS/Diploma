@@ -10,7 +10,7 @@ namespace JobVacanciesAPP.DAL.Interfaces
         Task<VacancyPage> GetVacanciesForRecruiter(int page, int pageSize, bool isRecommendation, int userId, string keyword);
         Task<VacancyPage> GetRecommendetVacancies(int page, int pageSize, bool isRecommendation, int userId, string keyword);
         Task VacancyApply(int vacancyId, int userId);
-        Task<VacancyPage> GetAllVacancy(int page, int pageSize, bool isRecommendation, int userId, string keyword);
+        Task<VacancyPage> GetAllVacancy(int page, int pageSize, bool isRecommendation, int userId,bool mainPage, string keyword);
         Task<VacancyDTO> GetVacancy(int vacancyId);
         Task<VacancyRecruiterDTO> GetVacancyInfoForRecruiter(int vacancyId);
 
