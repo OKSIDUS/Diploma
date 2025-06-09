@@ -10,5 +10,6 @@ namespace JobVacanciesAPI.DAL.Interfaces
         Task UpdateAsync(Application application);
         Task<string> GetStatus(int userID, int vacancyId);
         Task ChangeStatus(int vacancyId, int candidateId, string status);
+        Task<List<Application>> GetApplicationsByUserId(int candidateId);
     }
 }

@@ -36,6 +36,11 @@ namespace JobVacanciesAPP.BAL.Services
             return skills;
         }
 
+        public async Task<List<CandidateApplications>> GetCandidateApplications(int userId)
+        {
+            return await _repository.GetCandidateApplications(userId);
+        }
+
         public async Task<VacancyDTO> GetVacancyInfo(int vacancyId)
         {
             return await _repository.GetVacancy(vacancyId);

@@ -1,0 +1,59 @@
+﻿@model IEnumerable<JobVacanciesAPP.DAL.Models.Vacancy.CandidateApplications>
+
+@{
+    ViewData["Title"] = "Мої заявки";
+}
+
+<h2 class="mb-4">Мої заявки</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">Ви ще не подали жодної заявки.</div>
+}
+else
+{
+    <table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Назва вакансії</th>
+            <th>Компанія</th>
+            <th>Дата подання</th>
+            <th>Статус</th>
+            <th>Дії</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var app in Model)
+    {
+        <tr>
+            <td>@app.Title</td>
+            <td>@app.Company</td>
+            <td>@app.AppliedDate.ToString("dd.MM.yyyy")</td>
+            <td>
+                @switch (app.Status)
+                {
+                    case "Pending":
+                        <span class="badge bg-secondary">Очікує</span>
+                        break;
+                    case "Approved":
+                        <span class="badge bg-success">Прийнято</span>
+                        break;
+                    case "Decline":
+                        <span class="badge bg-danger">Відхилено</span>
+                        break;
+                    default:
+                        <span class="badge bg-light text-dark">@app.Status</span>
+                        break;
+                }
+            </td>
+            <td>
+                <a asp-controller="Vacancy" asp-action="ShortDetails" asp-route-id="@app.VacancyId" class="btn btn-sm btn-outline-primary">
+                    Деталі
+                </a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+}

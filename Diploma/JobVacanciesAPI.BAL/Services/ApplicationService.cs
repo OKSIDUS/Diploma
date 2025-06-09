@@ -12,12 +12,16 @@ namespace JobVacanciesAPI.BAL.Services
         private readonly IApplicationRepository _repo;
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
+        private readonly IVacancyRepository _vacancyRepository;
+        private readonly IRecruiterRepository _recruiterRepository;
 
-        public ApplicationService(IApplicationRepository repo, IMapper mapper, IUserRepository userRepository)
+        public ApplicationService(IApplicationRepository repo, IMapper mapper, IUserRepository userRepository, IVacancyRepository vacancyRepo, IRecruiterRepository recruiterRepository)
         {
             _repo = repo;
             _mapper = mapper;
             _userRepository = userRepository;
+            _vacancyRepository = vacancyRepo;
+            _recruiterRepository = recruiterRepository;
         }
 
         public async Task<List<CandidateDTO>> GetCandidatesByVacancyIdAsync(int vacancyId)
@@ -54,6 +58,31 @@ namespace JobVacanciesAPI.BAL.Services
         {
             //var candidateId = await _userRepository.GetCandidateId(userId);
             await _repo.ChangeStatus(vacancyId, userId, newStatus);
+        }
+
+        public async Task<IEnumerable<UserApplication>> GetUserApplications(int userId)
+        {
+            var candidateId = await _userRepository.GetCandidateId(userId);
+            var applications = await _repo.GetApplicationsByUserId(candidateId);
+            var vacancyIds = applications.Select(a => a.VacancyId).ToList();
+            List<UserApplication> users = new List<UserApplication>();
+
+            foreach(var app in applications)
+            {
+                var vacancy = await _vacancyRepository.GetByIdAsync(app.VacancyId);
+                var company = await _recruiterRepository.GetRecruiterCompanyById(vacancy.RecruiterId);
+                users.Add(new UserApplication
+                {
+                    VacancyId = vacancy.Id,
+                    Company = company,
+                    AppliedDate = app.SubmittedAt,
+                    Status = app.Status,
+                    Title = vacancy.Title
+
+                });
+            }
+
+            return users;
         }
     }
 }

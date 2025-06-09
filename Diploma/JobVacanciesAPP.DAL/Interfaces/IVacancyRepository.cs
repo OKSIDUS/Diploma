@@ -15,5 +15,7 @@ namespace JobVacanciesAPP.DAL.Interfaces
         Task<VacancyRecruiterDTO> GetVacancyInfoForRecruiter(int vacancyId);
 
         Task ChangeStatus(int vacancyId, int userId, string status);
+
+        Task<List<CandidateApplications>> GetCandidateApplications(int userId);
     }
 }

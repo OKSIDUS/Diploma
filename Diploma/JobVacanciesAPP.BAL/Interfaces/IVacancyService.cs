@@ -12,5 +12,6 @@ namespace JobVacanciesAPP.BAL.Interfaces
         Task<VacancyDTO> GetVacancyInfo(int vacancyId);
         Task<VacancyRecruiterDTO> GetVacancyRecruiter(int vacancyId);
         Task ChangeStatus(int vacancyId, int userId, string status);
+        Task<List<CandidateApplications>> GetCandidateApplications(int userId);
     }
 }

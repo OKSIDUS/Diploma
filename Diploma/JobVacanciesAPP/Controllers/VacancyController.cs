@@ -51,6 +51,12 @@ namespace JobVacanciesAPP.Controllers
             var info = await _vacancyService.GetVacancyInfo(id);
             return View(info);
         }
+        [HttpGet]
+        public async Task<IActionResult> ShortDetails(int id)
+        {
+            var info = await _vacancyService.GetVacancyInfo(id);
+            return View(info);
+        }
 
         [HttpGet]
         public async Task<IActionResult> RecruiterDetails(int id)
@@ -71,6 +77,14 @@ namespace JobVacanciesAPP.Controllers
         {
             await _vacancyService.ChangeStatus(id, candidateId, "Decline");
             return RedirectToAction("RecruiterDetails", new {id =id});
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Applications()
+        {
+            int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var info = await _vacancyService.GetCandidateApplications(userId);
+            return View(info);
         }
     }
 }

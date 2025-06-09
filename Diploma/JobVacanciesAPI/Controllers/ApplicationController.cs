@@ -59,5 +59,12 @@ namespace JobVacanciesAPI.Controllers
             await _service.ChangeStatus(vacancyId, userId, status);
             return Ok();
         }
+
+        [HttpGet("get-user-applications")]
+        public async Task<IActionResult> GetUserApplications(int userId)
+        {
+            var info = await _service.GetUserApplications(userId);
+            return Ok(info);
+        }
     }
 }
