@@ -38,5 +38,10 @@ namespace JobVacanciesAPI.DAL.Repositories
             _context.Applications.Update(application);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<string> GetStatus(int userID, int vacancyId)
+        {
+            return await _context.Applications.Where(a => a.CandidateId == userID && a.VacancyId == vacancyId).Select(a => a.Status).FirstOrDefaultAsync();
+        }
     }
 }

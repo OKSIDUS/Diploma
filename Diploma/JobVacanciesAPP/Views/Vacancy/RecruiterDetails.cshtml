@@ -1,0 +1,73 @@
+﻿@model JobVacanciesAPP.DAL.Models.Vacancy.VacancyRecruiterDTO;
+
+@{
+    ViewData["Title"] = "Деталі вакансії";
+}
+
+<h2 class="mb-4">Деталі вакансії</h2>
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">@Model.Title</h4>
+        <h6 class="card-subtitle mb-2 text-muted">@Model.Company</h6>
+
+        <p><strong>Локація:</strong> @Model.Location</p>
+
+        <p><strong>Опис:</strong></p>
+        <p>@Model.Description</p>
+
+        <p><strong>Вимоги:</strong></p>
+        <p>@Model.Requirements</p>
+
+        <p><strong>Зарплата:</strong> @Model.SalaryMin.ToString("N0") ₴ - @Model.SalaryMax.ToString("N0") ₴</p>
+
+        <div class="mt-4 d-flex gap-2">
+            @if (User.IsInRole("Candidate"))
+            {
+                <form asp-controller="Vacancy" asp-action="Apply" asp-route-Id="@Model.Id" method="post">
+                    <button type="submit" class="btn btn-success btn-sm">Подати заявку</button>
+                </form>
+            }
+            <a asp-controller="Profile" asp-action="Index" class="btn btn-outline-secondary">← Назад до списку</a>
+        </div>
+    </div>
+</div>
+
+@if (Model.Candidates != null && Model.Candidates.Any())
+{
+    <h4 class="mt-5">Кандидати</h4>
+    <table class="table table-bordered mt-3">
+        <thead>
+            <tr>
+                <th>Ім'я</th>
+                <th>Email</th>
+                <th>Досвід (в роках)</th>
+                <th>Статус</th>
+                <th>Дії</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var app in Model.Candidates)
+            {
+                <tr>
+                    <td>@app.FullName</td>
+                    <td>@app.Email</td>
+                    <td>@app.Experience</td>
+                    <td>@app.Status</td>
+                    <td class="d-flex gap-1">
+                        <form asp-controller="Vacancy" asp-action="AcceptApplication" asp-route-id="@app.Id" method="post">
+                            <button class="btn btn-sm btn-success" type="submit">Прийняти</button>
+                        </form>
+                        <form asp-controller="Vacancy" asp-action="RejectApplication" asp-route-id="@app.Id" method="post">
+                            <button class="btn btn-sm btn-danger" type="submit">Відхилити</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p class="mt-4 text-muted">Наразі немає кандидатів на цю вакансію.</p>
+}

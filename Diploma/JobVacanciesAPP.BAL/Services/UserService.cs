@@ -57,11 +57,11 @@ namespace JobVacanciesAPP.BAL.Services
             var profile = await _profileRepository.GetUserProfileAsync(userId);
             if (profile.Candidate == null)
             {
-                vacancy = await _vacancyRepository.GetVacanciesForRecruiter(1, 10, false, userId);
+                vacancy = await _vacancyRepository.GetVacanciesForRecruiter(1, 10, false, userId, "");
             }
             else
             {
-                vacancy = await _vacancyRepository.GetRecommendetVacancies(1, 10, true, userId);
+                vacancy = await _vacancyRepository.GetRecommendetVacancies(1, 10, true, userId, "");
             }
              
 

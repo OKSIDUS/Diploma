@@ -88,9 +88,9 @@ namespace JobVacanciesAPI.Controllers
         }
 
         [HttpGet("get-vacancies-page")]
-        public async Task<IActionResult> GetVacationPage(int page, int pageSize, bool isRecommendation, int userId)
+        public async Task<IActionResult> GetVacationPage(int page, int pageSize, bool isRecommendation, int userId, string? keyword)
         {
-            var vacancies = await _vacancyService.GetVacancyPage(page, pageSize, isRecommendation, userId);
+            var vacancies = await _vacancyService.GetVacancyPage(page, pageSize, isRecommendation, userId, keyword);
             return Ok(vacancies);
         }
 
@@ -100,6 +100,20 @@ namespace JobVacanciesAPI.Controllers
             await _vacancyService.ApplyVacancy(vacancyId, userId);
 
             return Ok();
+        }
+
+        [HttpGet("get-info")]
+        public async Task<IActionResult> GetInfo(int id)
+        {
+            var info = await _vacancyService.GetVacancyInfo(id);
+            return Ok(info);
+        }
+
+        [HttpGet("get-recruiter-info")]
+        public async Task<IActionResult> GetRecruiterInfo(int id)
+        {
+            var info = await _vacancyService.GetVacancyRecruiter(id);
+            return Ok(info);
         }
     }
 }

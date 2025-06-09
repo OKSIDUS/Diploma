@@ -8,5 +8,8 @@ namespace JobVacanciesAPP.BAL.Interfaces
         Task CreateVacancy(CreateVacancy vacancy);
         Task<Skills> GetAllSkills();
         Task VacancyApply(int vacancyId, int userId);
+        Task<VacancyPage> GetVacancyPage(int page, int pageSize, int userId, bool isRecommendation, string keyword = "");
+        Task<VacancyDTO> GetVacancyInfo(int vacancyId);
+        Task<VacancyRecruiterDTO> GetVacancyRecruiter(int vacancyId);
     }
 }

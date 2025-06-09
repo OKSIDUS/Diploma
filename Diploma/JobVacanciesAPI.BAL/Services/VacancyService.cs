@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using JobVacancies.RecommendationSystem.Services;
+using JobVacanciesAPI.BAL.DTOs.Candidate;
 using JobVacanciesAPI.BAL.DTOs.Vacancy;
 using JobVacanciesAPI.BAL.Interfaces;
 using JobVacanciesAPI.DAL.Entity;
@@ -15,8 +16,9 @@ namespace JobVacanciesAPI.BAL.Services
         private readonly ITagRepository _tagRepository;
         private readonly IMapper _mapper;
         private readonly IUserRepository _userRepository;
+        private readonly IApplicationRepository _applicationRepository;
 
-        public VacancyService(IVacancyRepository repo, IMapper mapper, IRecruiterRepository recruiterRepository, ITagRepository tagRepository, IUserRepository userRepository, RecommendationService recommendationService)
+        public VacancyService(IVacancyRepository repo, IMapper mapper, IRecruiterRepository recruiterRepository, ITagRepository tagRepository, IUserRepository userRepository, RecommendationService recommendationService, IApplicationRepository applicationRepository)
         {
             _repo = repo;
             _mapper = mapper;
@@ -24,6 +26,7 @@ namespace JobVacanciesAPI.BAL.Services
             _tagRepository = tagRepository;
             _userRepository = userRepository;
             _recommendationService = recommendationService;
+            _applicationRepository = applicationRepository;
         }
 
         public async Task<List<VacancyDTO>> GetAllAsync()
@@ -106,7 +109,7 @@ namespace JobVacanciesAPI.BAL.Services
             }
         }
 
-        public async Task<VacancyPage> GetVacancyPage(int page, int pageSize, bool isRecommendation, int userId)
+        public async Task<VacancyPage> GetVacancyPage(int page, int pageSize, bool isRecommendation, int userId, string keyword)
         {
             VacancyPage vacancy = new VacancyPage();
             vacancy.Page = page;
@@ -120,8 +123,17 @@ namespace JobVacanciesAPI.BAL.Services
                 {
                     var company = await _recruiterRepository.GetRecruiterCompany(userId);
                     var vacancies = await _repo.GetByRecruiterIdAsync(userId);
-                    var totalItems = PageCount(vacancies.Count, pageSize);
-                    var items = vacancies
+                    IEnumerable<Vacancy> filtered = vacancies;
+
+                    if (!string.IsNullOrWhiteSpace(keyword))
+                    {
+                        filtered = filtered.Where(v => v.Title.Contains(keyword, StringComparison.OrdinalIgnoreCase));
+                    }
+
+                    var filteredList = filtered.ToList();
+                    var totalItems = PageCount(filteredList.Count, pageSize);
+
+                    var items = filteredList
                         .Skip((page - 1) * pageSize)
                         .Take(pageSize)
                         .ToList();
@@ -143,6 +155,7 @@ namespace JobVacanciesAPI.BAL.Services
                         var vacanciesRec = await _recommendationService.GetRecommendedVacancies(candidateId);
                         var vacanciesIds = vacanciesRec.Select(v => v.VacancyId).ToList();
                         var vacancies = await _repo.GetVacanciesByIds(vacanciesIds);
+
                         vacancy.PageCount = 1;
                         foreach (var item in vacancies)
                         {
@@ -160,9 +173,17 @@ namespace JobVacanciesAPI.BAL.Services
                     }
                     else
                     {
-                        var vacancies = await _repo.GetNewVacancies();
-                        var totalItems = PageCount(vacancies.Count, pageSize);
-                        var items = vacancies
+                        var candidateId = await _userRepository.GetCandidateId(userId);
+                        var vacancies = await _repo.GetNewVacancies(candidateId);
+                        IEnumerable<Vacancy> filtered = vacancies;
+
+                        if (!string.IsNullOrWhiteSpace(keyword))
+                        {
+                            filtered = filtered.Where(v => v.Title.Contains(keyword, StringComparison.OrdinalIgnoreCase));
+                        }
+                        var filteredList = filtered.ToList();
+                        var totalItems = PageCount(filteredList.Count, pageSize);
+                        var items = filteredList
                              .Skip((page - 1) * pageSize)
                              .Take(pageSize)
                              .ToList();
@@ -198,6 +219,61 @@ namespace JobVacanciesAPI.BAL.Services
             var candidateId = await _userRepository.GetCandidateId(userId);
 
             await _repo.VacancyApply(vacancyId, candidateId);
+        }
+
+        public async Task<VacancyLongInfo> GetVacancyInfo(int vacancyId)
+        {
+            var vacancy = await _repo.GetByIdAsync(vacancyId);
+            var company = await _recruiterRepository.GetRecruiterCompanyById(vacancy.RecruiterId);
+
+            return new VacancyLongInfo
+            {
+                Company = company,
+                Description = vacancy.Description,
+                Location = vacancy.Location,
+                Requirements = vacancy.Requirements,
+                SalaryMax = vacancy.SalaryMax,
+                SalaryMin = vacancy.SalaryMin,
+                Title = vacancy.Title,
+                Id = vacancyId
+            };
+        }
+
+        public async Task<VacancyRecruiterDTO> GetVacancyRecruiter(int vacancyId)
+        {
+            var vacancy = await _repo.GetByIdAsync(vacancyId);
+            var company = await _recruiterRepository.GetRecruiterCompanyById(vacancy.RecruiterId);
+            var users = await _repo.GetCandidates(vacancyId);
+            var userIds = users.Select(x => x.Id).ToList();
+            var Vacancies = new List<CandidateShort>();
+
+            foreach(var user in users)
+            {
+                string status = await _applicationRepository.GetStatus(user.Id, vacancyId);
+                string email = await _userRepository.GetUserEmail(user.UserId);
+                Vacancies.Add(new CandidateShort
+                {
+                    Id = user.Id,
+                    FullName = user.FullName,
+                    Experience = user.Experience,
+                    UserId = user.Id,
+                    Status = status,
+                    Email = email
+                });
+            }
+
+            return new VacancyRecruiterDTO
+            {
+                Company = company,
+                Description = vacancy.Description,
+                Id = vacancyId,
+                Location = vacancy.Location,
+                Requirements = vacancy.Requirements,
+                SalaryMax = vacancy.SalaryMax,
+                SalaryMin = vacancy.SalaryMin,
+                Title = vacancy.Title,
+                Candidates = Vacancies
+            };
         }
     }
 }

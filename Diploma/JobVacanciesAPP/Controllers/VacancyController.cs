@@ -41,8 +41,22 @@ namespace JobVacanciesAPP.Controllers
 
             await _vacancyService.VacancyApply(id, userId);
 
-            return RedirectToAction("Index", "Profile");
+            return RedirectToAction("Index", "Home");
 
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            var info = await _vacancyService.GetVacancyInfo(id);
+            return View(info);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> RecruiterDetails(int id)
+        {
+            var info = await _vacancyService.GetVacancyRecruiter(id);
+            return View(info);
         }
     }
 }

@@ -55,9 +55,10 @@ namespace JobVacanciesAPI.DAL.Repositories
             }
         }
 
-        public async Task<List<Vacancy>> GetNewVacancies()
+        public async Task<List<Vacancy>> GetNewVacancies(int candidateId)
         {
-            return await _context.Vacancies.Where(v => v.IsActive == true).OrderByDescending(v => v.CreatedAt).ToListAsync();
+            var vacancyIds = await _context.Applications.Where(a => a.CandidateId == candidateId).Select(a => a.VacancyId).ToListAsync();
+            return await _context.Vacancies.Where(v => v.IsActive == true && !vacancyIds.Contains(v.Id)).OrderByDescending(v => v.CreatedAt).ToListAsync();
         }
 
         public async Task<List<Vacancy>> GetVacanciesByIds(List<int> ids)
@@ -77,6 +78,12 @@ namespace JobVacanciesAPI.DAL.Repositories
 
             await _context.Applications.AddAsync(application);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<Candidate>> GetCandidates(int vacancyId)
+        {
+            var userIds = await _context.Applications.Where(a => a.VacancyId == vacancyId).Select(a =>a.CandidateId).ToListAsync();
+            return await _context.Candidates.Where(c => userIds.Contains(c.Id)).ToListAsync();
         }
     }
 }
