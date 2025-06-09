@@ -3,6 +3,7 @@ using JobVacanciesAPP.BAL.DTOs.UserProfile;
 using JobVacanciesAPP.BAL.Interfaces;
 using JobVacanciesAPP.DAL.Interfaces;
 using JobVacanciesAPP.DAL.Models.Users;
+using JobVacanciesAPP.DAL.Models.Vacancy;
 using Microsoft.Identity.Client;
 
 namespace JobVacanciesAPP.BAL.Services
@@ -52,7 +53,7 @@ namespace JobVacanciesAPP.BAL.Services
                 return null;
             }
 
-            var vacancy = new DAL.Models.Vacancy.VacancyPage();
+            var vacancy = new VacancyPage();
 
             var profile = await _profileRepository.GetUserProfileAsync(userId);
             if (profile.Candidate == null)

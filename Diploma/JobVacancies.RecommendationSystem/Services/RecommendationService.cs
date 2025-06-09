@@ -89,6 +89,13 @@ namespace JobVacancies.RecommendationSystem.Services
                     !appliedVacancies.Contains(s.VacancyId))
                 .ToListAsync();
 
+            return similarities
+                    .Where(s => s.Score > 0.5F)
+                    .OrderByDescending(s => s.Score)
+                    .Take(10)
+                    .Select(s => (s.VacancyId, (float)s.Score))
+                    .ToList();
+
             if (!applications.Any())
             {
                 return similarities
