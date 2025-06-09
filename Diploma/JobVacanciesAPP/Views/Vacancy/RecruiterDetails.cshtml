@@ -63,6 +63,19 @@
                         </form>
                     </td>
                 </tr>
+                @if (app.Skills != null && app.Skills.Any())
+                {
+                    <tr>
+                        <td colspan="5">
+                            <div class="d-flex flex-wrap gap-2">
+                                @foreach (var skill in app.Skills.Take(10))
+                                {
+                                    <span class="badge bg-secondary">@skill</span>
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                }
             }
         </tbody>
     </table>

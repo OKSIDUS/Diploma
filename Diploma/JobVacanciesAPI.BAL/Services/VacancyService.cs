@@ -251,6 +251,7 @@ namespace JobVacanciesAPI.BAL.Services
             {
                 string status = await _applicationRepository.GetStatus(user.Id, vacancyId);
                 string email = await _userRepository.GetUserEmail(user.UserId);
+                var skills = await _tagRepository.GetUserTags(user.UserId);
                 Vacancies.Add(new CandidateShort
                 {
                     Id = user.Id,
@@ -258,7 +259,8 @@ namespace JobVacanciesAPI.BAL.Services
                     Experience = user.Experience,
                     UserId = user.Id,
                     Status = status,
-                    Email = email
+                    Email = email,
+                    Skills = skills
                 });
             }
 
