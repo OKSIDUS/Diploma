@@ -11,5 +11,6 @@ namespace JobVacanciesAPP.BAL.Interfaces
         Task<VacancyPage> GetVacancyPage(int page, int pageSize, int userId, bool isRecommendation, string keyword = "");
         Task<VacancyDTO> GetVacancyInfo(int vacancyId);
         Task<VacancyRecruiterDTO> GetVacancyRecruiter(int vacancyId);
+        Task ChangeStatus(int vacancyId, int userId, string status);
     }
 }

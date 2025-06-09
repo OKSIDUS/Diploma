@@ -55,10 +55,10 @@
                     <td>@app.Experience</td>
                     <td>@app.Status</td>
                     <td class="d-flex gap-1">
-                        <form asp-controller="Vacancy" asp-action="AcceptApplication" asp-route-id="@app.Id" method="post">
+                        <form asp-controller="Vacancy" asp-action="AcceptApplication" asp-route-id="@Model.Id" asp-route-candidateId="@app.Id" method="post">
                             <button class="btn btn-sm btn-success" type="submit">Прийняти</button>
                         </form>
-                        <form asp-controller="Vacancy" asp-action="RejectApplication" asp-route-id="@app.Id" method="post">
+                        <form asp-controller="Vacancy" asp-action="RejectApplication" asp-route-id="@Model.Id" asp-route-candidateId="@app.Id" method="post">
                             <button class="btn btn-sm btn-danger" type="submit">Відхилити</button>
                         </form>
                     </td>

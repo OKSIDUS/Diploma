@@ -13,6 +13,12 @@ namespace JobVacanciesAPP.BAL.Services
         {
             _repository = repository;
         }
+
+        public async Task ChangeStatus(int vacancyId, int userId, string status)
+        {
+           await _repository.ChangeStatus(vacancyId, userId, status);
+        }
+
         public async Task CreateVacancy(CreateVacancy vacancy)
         {
             if (vacancy != null)

@@ -52,5 +52,12 @@ namespace JobVacanciesAPI.Controllers
                 return StatusCode(500,ex.Message);
             }
         }
+
+        [HttpGet("update-status")]
+        public async Task<IActionResult> ChangeStatus(int vacancyId, int userId, string status)
+        {
+            await _service.ChangeStatus(vacancyId, userId, status);
+            return Ok();
+        }
     }
 }

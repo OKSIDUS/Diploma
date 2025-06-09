@@ -10,12 +10,14 @@ namespace JobVacanciesAPI.BAL.Services
     public class ApplicationService : IApplicationService
     {
         private readonly IApplicationRepository _repo;
+        private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
-        public ApplicationService(IApplicationRepository repo, IMapper mapper)
+        public ApplicationService(IApplicationRepository repo, IMapper mapper, IUserRepository userRepository)
         {
             _repo = repo;
             _mapper = mapper;
+            _userRepository = userRepository;
         }
 
         public async Task<List<CandidateDTO>> GetCandidatesByVacancyIdAsync(int vacancyId)
@@ -46,6 +48,12 @@ namespace JobVacanciesAPI.BAL.Services
                 entity.Status = newStatus;
                 await _repo.UpdateAsync(entity);
             }
+        }
+
+        public async Task ChangeStatus(int vacancyId, int userId, string newStatus)
+        {
+            //var candidateId = await _userRepository.GetCandidateId(userId);
+            await _repo.ChangeStatus(vacancyId, userId, newStatus);
         }
     }
 }

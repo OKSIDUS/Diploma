@@ -18,6 +18,16 @@ namespace JobVacanciesAPP.DAL.Repositories
             httpClient.BaseAddress = new Uri(api.BaseUrl);
         }
 
+        public async Task ChangeStatus(int vacancyId, int userId, string status)
+        {
+            var response = await httpClient.GetAsync($"applications/update-status?vacancyId={vacancyId}&userId={userId}&status={status}");
+
+            if (response.IsSuccessStatusCode)
+            {
+            }
+
+        }
+
         public async Task CreateVacancy(CreateVacancy vacancy)
         {
             if (vacancy != null)

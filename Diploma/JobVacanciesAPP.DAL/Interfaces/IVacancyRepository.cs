@@ -13,5 +13,7 @@ namespace JobVacanciesAPP.DAL.Interfaces
         Task<VacancyPage> GetAllVacancy(int page, int pageSize, bool isRecommendation, int userId, string keyword);
         Task<VacancyDTO> GetVacancy(int vacancyId);
         Task<VacancyRecruiterDTO> GetVacancyInfoForRecruiter(int vacancyId);
+
+        Task ChangeStatus(int vacancyId, int userId, string status);
     }
 }

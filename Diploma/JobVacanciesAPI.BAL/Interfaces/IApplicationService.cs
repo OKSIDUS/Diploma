@@ -9,5 +9,6 @@ namespace JobVacanciesAPI.BAL.Interfaces
         Task<ApplicationDTO?> GetByIdAsync(int id);
         Task AddAsync(ApplicationDTO dto);
         Task UpdateStatusAsync(int id, string newStatus);
+        Task ChangeStatus(int vacancyId,int userId, string newStatus);
     }
 }

@@ -58,5 +58,19 @@ namespace JobVacanciesAPP.Controllers
             var info = await _vacancyService.GetVacancyRecruiter(id);
             return View(info);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> AcceptApplication(int id, int candidateId)
+        {
+            await _vacancyService.ChangeStatus(id, candidateId, "Accept");
+            return RedirectToAction("RecruiterDetails", new {id = id});
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RejectApplication(int id, int candidateId)
+        {
+            await _vacancyService.ChangeStatus(id, candidateId, "Decline");
+            return RedirectToAction("RecruiterDetails", new {id =id});
+        }
     }
 }
